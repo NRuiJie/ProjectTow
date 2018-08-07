@@ -1,0 +1,73 @@
+<#assign title="提现记录" />
+<#include '/common/header.html' />
+
+<!-- 获取会员提现记录列表标签 -->
+<#assign withdrawApplyTag = newTag("withdrawApplyTag")>
+<!-- 调用会员提现记录列表标签 -->
+<#assign withdrawApplyTag = withdrawApplyTag()!''>
+
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/withdraw.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+
+<!-- 头部 -->
+    <div class="tb" style="border-bottom: 0;">
+      <a href="javascript:history.go(-1);">
+	        <span>
+			<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+		</span>
+      </a>
+      <h1>提现记录</h1>
+    </div>
+<div class="member_center">
+	<div class="content-withdraw-recording" style="margin-top:0px;">
+		<table class="table table-responsive table-bordered table-hover">
+			<thead style="background: #fff;">
+				<tr>
+					<th style="color:#7c7c7c;font-size:15px;font-weight: normal;">提现时间</th>
+					<th style="color:#7c7c7c;font-size:15px;font-weight: normal;">提现金额</th>
+					<!--<th>提现方式</th>-->
+					<th style="color:#7c7c7c;font-size:15px;font-weight: normal;">提现状态</th>
+					<th style="color:#7c7c7c;font-size:15px;font-weight: normal;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<#list withdrawApplyTag.applys.result as list>
+					<tr>
+					<td><@dateformat time="${list.apply_time?c}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td>￥ ${list.apply_money!''}</td>
+					<td>
+						<#if list.wr_status==1>
+							提交申请
+						<#elseif list.wr_status==2>
+							审核通过
+						<#elseif list.wr_status==3>
+							审核失败
+						<#else>
+							已转账
+						</#if>
+					
+					</td>
+					<td>
+						<a href="javascript: void(0);" apply_id="${list.apply_id}"  class="btn btn-info see-detail" style="font-size: 12px;">详情</a>
+					</td>
+				</tr>
+				</#list>
+			</tbody>
+		</table>
+		<@pager pageno="${withdrawApplyTag.page!'1'}" pagesize="${withdrawApplyTag.pageSize}" totalcount="${withdrawApplyTag.totalCount}" />
+	</div>
+</div>
+<script>
+	$(function() {
+
+		$('.see-detail').on('click', function(){
+			var _this = $(this),
+				_applId = _this.attr('apply_id');
+
+			location.href = './withdraw-recording-detail.html?apply_id=' + _applId
+		})
+	})
+</script>
+</div>
+

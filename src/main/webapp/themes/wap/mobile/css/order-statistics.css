@@ -1,0 +1,104 @@
+.filter .sell-filter-item{
+	width: 50%;
+}
+
+
+
+.sts-bar{
+	padding: 25px;
+	background: #fff;
+	text-align: center;
+	margin-bottom: 5px;
+}
+.sts-bar .tit{
+	font-size: 15px;
+	color: #000;
+	font-weight: bold;
+}
+.sts-bar  .money{
+	line-height: 80px;
+	color: #d31515;
+	font-weight: bold;
+	font-size: 40px;
+}
+.sts-bar .all{
+	font-size: 13px;
+	color: #333;
+}
+
+
+.stsitem{padding: 12px;background: #fff;
+    overflow: hidden;
+}
+.stsitem+.stsitem{
+	border-top: 1px solid #EAEAEA;
+}
+.stsitem .sts-title{
+	font-size: 15px;
+	color: #333;
+	height: 20px;
+	
+}
+.stsitem .stsrow{
+    font-size: 15px;
+    height: 20px;
+    margin-bottom:10px;
+	
+}
+.stsitem2 p{
+    font-size: 13px;
+ 
+	
+}
+.stsitem .stsrow .left{
+	float: left;
+	
+}
+.stsitem .stsrow .right{
+	float: right;
+}
+
+.stsitem .stsrow2{
+	margin-right: 10px;
+	font-size: 14px;
+}
+
+.right{
+	float:right;
+}
+.left{
+	float:left;
+}
+.stsrow p{
+	
+}
+.red{
+	color: #d31515;
+}
+.stsrow3 img{
+	height:60px;
+}
+
+.stsfilter  .filter-con .filternav li{
+	width: 16.6%;
+}
+.stsfilter  .filter-con .filternav li a{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	margin: 0 auto;
+}
+.stsfilter  .filter-con .filternav li.active a{
+	background: #D31515;
+	color: #fff;
+}
+
+.stslist-tit{
+	background: #fff;
+	font-size: 18px;
+	padding: 12px;
+	border-bottom: 1px solid #EAEAEA;
+}
+.stsitembox{
+	margin-bottom: 5px;
+}

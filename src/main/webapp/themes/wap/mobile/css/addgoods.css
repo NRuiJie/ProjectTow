@@ -1,0 +1,213 @@
+*{margin: 0;padding: 0;}
+body{
+	background: #f5f5f5;
+	color: #666;
+}
+input:focus,button:focus{
+	outline: none;
+}
+/*搜索*/
+.search{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 40px;
+	background: #fff;
+	z-index: 1001;
+	display: none;
+}
+
+.search-reletive{
+	
+	position: relative;
+	margin-bottom: 5px;
+	display: block;
+}
+
+
+.search .search-box{
+	margin-right: 80px;
+	margin-left: 12px;
+	position: relative;
+}
+
+.search-reletive .search-box{
+margin: 0 12px;	
+}
+
+.search .search-box .search-btn{
+	height: 40px;
+	width: 40px;
+	left: 0px;
+	position: absolute;
+	background: url(../images/searchicon.png) no-repeat center ;
+	background-size: 12px 12px;
+	
+}
+.search .search-box input{
+	border: 1px solid #dedcdc;
+	width: 89%;
+	padding-left: 20px;
+	padding: 5px 0 5px 36px;
+	border-radius: 5px;
+	font-size: 14px;
+	box-sizing: border-box;
+	margin-top: 5px;	
+}
+
+.search .cancel{
+position: absolute;
+top: 0;
+right: 0;
+width: 80px;
+text-align: center;
+line-height: 40px;
+font-size: 12px;
+color: #666;
+
+}
+
+/*筛选*/
+
+
+.filter{
+	height: 40px;
+	width: 100%;
+	background: #fff;
+	margin-bottom: 5px;
+}
+.filter .filter-item,.filter .searchgo{
+	float: left;
+	width: 33%;
+	text-align: center;
+	line-height: 40px;
+	font-size: 15px;
+	color: #666;	
+}
+.filter .filter-item .arry{
+	display: inline-block;
+	vertical-align: middle;
+	width: 15px;
+	height: 15px;
+	background: url(../images/a-down.png) no-repeat center;
+	background-size: 8px;
+	margin-top: -3px;
+	margin-left: 4px;
+}
+.filter .filter-item.on{
+	color: #d31515;
+}  
+.filter .filter-item.on .arry{
+	background-image:url(../images/a-up.png) ;
+}
+.filter .filter-con{
+	position: fixed;
+	left: 0;
+	right: 0;	
+	top: 40px;
+	bottom: 0;
+	background: rgba(0,0,0,.5);
+	display: none;
+}
+.filter .on .filter-con{
+	display: block;
+}
+.filter .filter-con .filternav{	
+	padding: 10px 0;
+	background: #fff; 
+	overflow: hidden;
+	
+}
+.filter .filter-con .filternav li{
+	float: left;
+	width: 20%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	list-style: none;
+}
+.filter .filter-con .filternav li a{
+	display: block;
+	color: #666;
+	text-decoration: none;
+	font-size: 12px;
+	overflow: hidden;
+    height: 38px;
+}
+.filter .filter-con .filternav li.active a{
+	color: #de5050;
+}
+
+
+/*商品列表*/
+
+.goodsitem{
+	background: #fff;
+	margin-bottom: 5px;
+	padding: 14px;
+}
+.goodsitem .goodsitem-body{
+	padding-bottom: 12px;
+	border-bottom: 1px solid #f5f5f5;
+}
+.goodsitem .goodsitem-body .goodsitem-img{
+	width: 75px;
+	height: 75px;
+	border: 1px solid #f5f5f5;
+	float: left;
+	
+}
+.goodsitem .goodsitem-body .goodsitem-img img{
+	width: 75px;
+	height: 75px;
+}
+.goodsitem .goodsitem-body .goodsitem-mes {
+	 margin-left: 85px;
+}
+.goodsitem .goodsitem-body .goodsitem-mes p{
+	overflow: hidden;
+	height: 20px;
+	line-height:20px;
+	font-size: 13px;
+	color: #595959;
+}
+
+.goodsitem-footer{
+	padding-top: 14px;
+	text-align: right;
+}
+.goodsitem-footer button,.goodsitem-footer a{
+	display:inline-block;
+	width: 82px;
+	height: 34px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 34px;
+	border: 1px solid #d31515;
+	color: #333;
+	margin-left: 10px;
+	font-size: 13px;
+	background: #fff;
+}
+.goodsitem-footer .add-btn{
+	background:#d31515 ;
+	color: #fff;
+	
+}
+
+
+.bottom-btn{
+	position: fixed;
+	height: 45px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	line-height: 45px;
+	color: #fff;
+	background: #d31515;
+	width: 100%;
+	border: 0;
+
+}

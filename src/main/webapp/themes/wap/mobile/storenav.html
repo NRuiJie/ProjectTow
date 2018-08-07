@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>店铺管理</title>		
+		<meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+	</head>
+<#assign loginB2b2cMobileMemberTag=newTag("loginB2b2cMobileMemberTag")>
+	<#assign storeMemberresult=loginB2b2cMobileMemberTag() />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/storenav.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<body>
+    <header>
+       <a href="javascript:app.changeTab(4);">
+		    <span>
+				<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+			</span>
+	   </a>
+			
+			<h1>店铺管理</h1>
+   </header>
+	<ul class="storenav">
+	
+	
+	<li><a href="${ctx}/mobile/goods/goodsadd.html">上架商品</a></li>
+		<li><a href=${ctx}/mobile/order/order-list.html?order_state=all>订单管理</a></li>
+		<li><a href="${ctx}/mobile/statistics/order-statistics.html">销售统计</a></li>
+		
+	</ul>
+</body>
+
+</html>

@@ -1,0 +1,534 @@
+
+/**
+ * Created by Andste on 2016/10/2.
+ * 分销管理附加样式
+ */
+
+
+@font-face {
+	font-family: 'icomoon';
+	src: url('./fonts/icomoon.eot?b1br7i');
+	src: url('./fonts/icomoon.eot?#iefixb1br7i')
+	format('embedded-opentype'), url('./fonts/icomoon.woff?b1br7i')
+	format('woff'), url('./fonts/icomoon.ttf?b1br7i')
+	format('truetype'), url('./fonts/icomoon.svg?b1br7i#icomoon')
+	format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icomoon {
+	font-family: icomoon
+}
+
+.money {
+	color: #c30f0f;
+}
+
+body .table>tbody>tr>td {
+	padding: 8px 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* 我推荐的人相关
+ ============================================================================ */
+
+.title-my-recommend h1 {
+	font-size: 16px;
+	margin-top: 15px;
+	margin-left: 15px;
+	margin-bottom: 20px;
+}
+
+.title-my-recommend h1 a {
+	color: #0a89c7;
+}
+
+.content-my-recommend table tbody {
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+}
+
+.content-my-recommend {
+	margin-top: 10px;
+}
+
+.content-my-recommend .tree-more {
+	position: relative;
+	padding-top: 0;
+	padding-bottom: 0;
+	border-top: 0;
+}
+
+.content-my-recommend table tbody tr:first-child td {
+	border-top: 0;
+}
+
+.subordinate-table .tree-h {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 1px;
+	height: 100%;
+	background-color: #dddddd;
+}
+
+.subordinate-table .tree-h.last {
+	height: 50%;
+}
+
+.subordinate-table .tree-v {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 50%;
+	height: 1px;
+	background-color: #dddddd;
+}
+
+.content-my-recommend table thead tr th {
+	text-align: center;
+	vertical-align: middle;
+	background-color: #dddddd;
+	border-bottom: none;
+}
+
+.content-my-recommend table thead .more,
+.content-my-recommend table tbody .tree-more {
+	width: 30px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.content-my-recommend table thead .head,
+.content-my-recommend table tbody .head-img {
+	width: 40px;
+}
+
+.subordinate-table table tbody .head-img {
+	border-left: 1px solid #dddddd;
+	width: 80px;
+}
+
+.content-my-recommend table tbody tr td {
+	text-align: center;
+	vertical-align: middle;
+	overflow: hidden;
+}
+
+.content-my-recommend table .show-more a {
+	color: #999999;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.content-my-recommend table .head-img img {
+	width: 35px;
+	height: 35px;
+	border-radius: 100%;
+}
+
+.content-my-recommend table .see-detail a {
+	color: #0a89c7;
+}
+
+
+/* 我的业绩相关
+ ============================================================================ */
+
+.title-my-performance {
+	margin-top: 15px;
+	margin-bottom: 20px;
+	height: 80px;
+	border: 1px solid #dddddd;
+}
+
+.title-my-performance .item-count {
+	float: left;
+	width: 15%;
+	height: 100%;
+	text-align: center;
+}
+
+.title-my-performance .top-item-count {
+	line-height: 60px;
+	height: 50%;
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.title-my-performance .bottom-item-count {
+	line-height: 40px;
+	height: 50%;
+}
+
+.top-title-count {
+	color: #00a0e9;
+}
+
+.item-count.title-count {
+	width: 18%;
+}
+
+.bottom-title-count,
+.top-title-count {
+	text-align: right;
+}
+
+.top-finally-count {
+	font-size: 20px;
+}
+
+.item-count.equal-count {
+	text-align: left;
+	width: 5%;
+}
+
+.item-symbol.equal {
+	margin-top: 20px;
+}
+
+.content-my-performance table thead th {
+	text-align: center;
+}
+
+.content-my-performance table tbody tr td {
+	vertical-align: middle;
+}
+
+/* 提现设置相关
+ ============================================================================ */
+.title-withdraw-setting {
+	line-height: 50px;
+	padding-left: 20px;
+	font-size: 20px;
+}
+
+.content-withdraw-setting {
+	position: relative;
+	background: #fff;
+    padding: 0 10px;
+        padding-bottom: 20px;
+    padding-top: 3px;
+}
+
+.item-cash-widthdraw {
+	clear: both;
+	padding-top: 5px;
+	height: 40px;
+}
+
+.title-item-cash,
+.input-item-cash {
+	float: left;
+}
+
+.title-item-cash {
+	width:70px;
+	line-height: 40px;
+	text-align: right;
+	font-size: 14px;
+	text-align: left;
+	margin-top: 5px;
+	color: #7c7c7c;
+}
+
+.input-item-cash {
+	margin-left: 10px;
+	    width: 71%;
+}
+
+.input-item-cash .form-control {
+	margin-top:10px;
+	height: 34px;
+	border-radius:5px;
+	font-size: 12px;
+	    color: #333;
+}
+
+.item-cash-widthdraw.wechat {
+	position: relative;
+	margin-left: 100px;
+}
+
+.wechat-input {
+	height: 38px;
+	width: 80px;
+	padding: 0 10px;
+	border: 1px solid #bababa;
+	outline: none;
+}
+
+.wechat-code {
+	width: 60px;
+	height: 40px;
+	line-height: 40px;
+	color: #ffffff;
+	text-align: center;
+	background-color: #bababa;
+}
+
+.wechat-input,
+.wechat-code {
+float: left;
+}
+
+.val-wechat-code {
+	display: block;
+	width: 162px;
+	line-height: 35px;
+	text-align: center;
+	color: #ffffff;
+	background-color: #ff6700;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+}
+
+.val-wechat-code:hover {
+	color: #ffffff;
+	background-color: #d15a00;
+}
+
+.title-wechat-code {
+	color: #ff6700;
+	float: left;
+}
+
+.content-wechat-code {
+	float: left;
+	color: #00a0e9;
+	width: 162px;
+	word-break: break-all;
+}
+
+.wechat-box {
+	position: absolute;
+	width: 180px;
+	height: 180px;
+	top: 0;
+	left: 400px;
+	background-color: #ff6700;
+	opacity: 0;
+	overflow: hidden;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+}
+
+.wechat-box.show {
+	opacity: 1;
+}
+
+.wechat-box img {
+	width: 180px;
+	height: 180px;
+	border: none;
+}
+
+
+/* 申请提现相关
+ ============================================================================ */
+.content-withdraw-apply {
+	    padding: 0 0 0 20px;
+    background: #fff;
+    padding-bottom: 91px;
+}
+
+.item-apply {
+	clear: both;
+}
+
+.key-item,
+.value-item {
+	float: left;
+	margin-top: 20px;
+}
+
+.key-item {
+	text-align: left;
+	font-size: 15px;
+	width:75px;
+	color:#595959;
+}
+
+.value-item {
+	margin-left: 10px;
+	 width: 70%;
+	
+}
+
+.money-can-withdraw {
+	font-size:15px;
+	position: relative;
+}
+
+.money-apply-withdraw .equal-money {
+	float: left;
+	width: 30px;
+	height: 30px;
+	background-color: #bababa;
+	text-align: center;
+	line-height: 30px;
+	font-size: 18px;
+	color: #ffffff;
+}
+
+.money-apply-withdraw .input-money {
+	float: left;
+	padding: 0 5px;
+	width: 50px;
+	height: 30px;
+	border: 1px solid #bababa;
+	border-radius: 0;
+}
+
+.mark-apply-withdraw {
+	width:97%;
+	height:30px;
+	resize: none;
+	border-radius:5px;
+}
+
+/* 提现记录
+ ============================================================================ */
+.content-withdraw-recording {
+	margin-top: 30px;
+}
+
+.content-withdraw-recording table thead th {
+	text-align: center;
+}
+
+.content-withdraw-recording table tbody td {
+	vertical-align: middle;
+}
+
+.detail-withdraw-recording {
+	padding-left: 20px;
+}
+
+.item-detail-recording {
+	clear: both;
+}
+
+.key-item-detail,
+.value-item-detail {
+	float: left;
+	margin-bottom: 10px;
+}
+
+.key-item-detail {
+	font-size: 16px;
+}
+
+.value-item-detail {
+	margin-left: 10px;
+}
+
+.value-item-detail.money {
+	font-size: 16px;
+}
+
+.time-detail-recording {
+	color: #ff6700;
+	margin-right: 10px;
+}
+
+/* wap端专用导航
+ ============================================================================ */
+.withdraw-nav-wap {
+	width: 100%;
+}
+
+/* 我的业绩wap导航
+ ============================================================================ */
+.withdraw-nav-wap .nav-my-performance {
+	width: 100%;
+}
+
+.withdraw-nav-wap li {
+	float: left;
+	width: 33%;
+	text-align: center;
+	line-height:40px;
+}
+a:active{
+	text-decoration : none
+}
+.withdraw-nav-wap li.selected a {
+	color: #d21616;
+	text-decoration : none
+}
+
+.title-my-performance-wap {
+	clear: both;
+	margin-top: 5px;
+	width: 100%;
+	border: 1px solid #dddddd;
+}
+
+.item-count-wap {
+	width: 100%;
+}
+
+.title-count-wap,
+.money-count-wap {
+	float: left;
+	line-height: 35px;
+	width: 50%;
+}
+
+.title-count-wap {
+	text-align: center;
+}
+
+.money-count-wap {
+	text-align: left;
+}
+
+.order-table-wap {
+	height: 40px;
+	overflow: hidden;
+	font-size: 12px;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+}
+
+.order-table-wap.show {
+	height: 220px;
+}
+
+.nav-order-table-wap {
+	line-height: 35px;
+	height: 35px;
+	color: #ffffff;
+	background-color: #00aeef;
+	padding-left: 10px;
+	margin-top: 10px;
+	background-color: #373737;
+}
+
+
+/* wap下重置一些样式
+ ============================================================================ */
+.title-my-performance {
+	clear: both;
+}

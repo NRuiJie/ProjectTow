@@ -1,0 +1,82 @@
+<!-- 获取会员现金设置列表标签 -->
+<#assign withdrawSettingTag = newTag("withdrawSettingTag")>
+<!-- 调用会员现金设置列表标签 -->
+<#assign withdrawSettingTag = withdrawSettingTag()!''>
+
+<form id="xj_form" method="post" class="validate"  action="#">
+<div class="">
+	<div class="title-withdraw-setting">
+		现金提现设置：
+	</div>
+	<div class="content-withdraw-setting">
+	 		<div class="item-cash-widthdraw"> 
+				<div class="title-item-cash ">账户类型</div>
+				<div class="input-item-cash">
+					<select class="form-control bank_type" name="bank_type" id="bank_type">
+					<option value="1" <#if !withdrawSettingTag.bank_type??>  selected="selected"<#elseif withdrawSettingTag.bank_type=='1'> selected="selected" </#if>>银行卡</option>
+					<option value="0" <#if !withdrawSettingTag.bank_type??> <#elseif withdrawSettingTag.bank_type=='0'> selected="selected" </#if>>支付宝</option>
+					</select>
+				</div>
+			</div>
+			<div class="item-cash-widthdraw bank_class">
+				<div class="title-item-cash ">开户银行</div>
+				<div class="input-item-cash">
+					<input class="form-control bank_center_name" type="text"  value="${withdrawSettingTag.bank_center_name!''}" name="bank_center_name" id="bank_account_name"  maxlength="30"/>
+				</div>
+			</div>
+   			<div class="item-cash-widthdraw bank_class">
+				<div class="title-item-cash ">支行名</div>
+				<div class="input-item-cash">
+					<input class="form-control bank_name" type="text"  value="${withdrawSettingTag.bank_name!''}" name="bank_name" id="bank_account_name"  maxlength="30"/>
+				</div>
+			</div>
+   			<div class="item-cash-widthdraw">
+				<div class="title-item-cash ">账户姓名</div>
+				<div class="input-item-cash">
+					<input class="form-control bank_account_name"  value="${withdrawSettingTag.bank_account_name!''}" type="text" name="bank_account_name" id="bank_account_name"  maxlength="30"/>
+				</div>
+			</div>
+   			<div class="item-cash-widthdraw bank_class">
+				<div class="title-item-cash ">账号</div>
+				<div class="input-item-cash">
+					<input class="form-control bank_account_number"  value="${withdrawSettingTag.bank_account_number!''}" onKeyUp="this.value=this.value.replace(/\D/g,'')" type="text" name="bank_account_number" id="bank_account_name"  maxlength="30"/>
+				</div>
+			</div>
+			<div class="item-cash-widthdraw alipay_class"  style="display:none;">
+				<div class="title-item-cash ">账号</div>
+				<div class="input-item-cash">
+					<input class="form-control alipay_code"   value="${withdrawSettingTag.alipay_code!''}"  type="text" onKeyUp="this.value=this.value.replace(/^0?(13[0-9]|15[012356789]|18[0123456789]|14[0123456789]|17[0123456789])[0-9]{8}$/,'')" name="alipay_code"   maxlength="30"/>
+				</div>
+			</div>
+			
+		<div class="item-cash-widthdraw">
+			<div class="title-item-cash">&nbsp;</div>
+			<div class="input-item-cash">
+				<button class="btn btn-danger" type="button" id="xj_btn" style="width: 100px;">保存设置</button>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+
+$(function(){
+	<#if !withdrawSettingTag.bank_type??> 
+	<#elseif withdrawSettingTag.bank_type=='0'>
+		$('.bank_class').hide();
+		$('.alipay_class').show();
+	</#if>
+	$('#bank_type').change(function(){
+		if($(this).val() == 0){
+			
+			$('.bank_class').hide();
+			$('.alipay_class').show();
+			
+		}else{
+			$('.bank_class').show();
+			$('.alipay_class').hide();
+		}
+	})
+});
+
+</script>

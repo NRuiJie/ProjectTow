@@ -1,0 +1,92 @@
+<#assign  title="订单管理" />
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/new_store/css/pages/goods/addgoods.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/new_store/css/pages/order/orderadmin.css"/>
+
+<!-- 获取店铺订单标签 -->
+<#assign storeorderList=newTag("storeOrderListTag")/>
+<#assign orderList=storeorderList()/>
+	<body>
+		<div class="search search-reletive">
+			<div class="search-box">
+				<span class="search-btn"></span>
+				<input type="text" name="" id="filterseach" value="" placeholder="输入订单编号或收货人"/>
+				<div style="position:absolute;top:6px; right:-6px;border-radius:3px; font-size: 12px;background:#D31515;color: #fff; width: 38px;height: 28px;line-height: 28px; text-align: center;" id="filter_seach">
+				    搜索
+				</div>
+			</div>
+		</div>
+		<div class="adminlist">
+			<#if orderList.totalCount != 0 >
+	            <#list orderList.storeOrder.result as order>
+					<div class="adminitem">
+						<div class="admin-top">
+							<p>收货人：${order.ship_name!'无'}</p>
+							<p>订单编号：${order.sn}</p>
+							<p>下单时间：
+								<span><@dateformat time="${order.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></span>
+							</p>
+							<!-- <a href="${ctx}/new_store/pages/order/order-detail.html?ordersn=${order.sn}">
+								<img src="${ctx}${themes_path}/new_store/images/editor.png" class="editor"/>
+							</a> -->
+						</div>
+						<div class="amdin-bottom">
+							<#--创建“订单货物列表”标签-->
+                            <#assign orderItemListTag = newTag("orderItemListTag")>
+                            <#--调用“订单货物列表”标签，并传递参数-->
+                            <#assign orderItemList = orderItemListTag("{'orderid':${order.order_id}}")>
+                            <#list orderItemList as item>
+                            	<div class="amdin-bottom-pic">
+	                           	 	<#if item.image?? >
+	                                    <img src="${item.image!''}" />
+	                                <#else>
+	                                    <img src="${ctx}/statics/images/no_picture.jpg" />
+	                                </#if>
+                            	</div>
+                            	<div class="amdin-bottom-mes">
+                            		<p class="name">
+		                                <a target="_blank" href="${ctx}/goods-${item.goods_id}.html"><@substring title="${item.name}" length="48" dot="..." /></a>
+                            		</p>
+                            		<p class="prisre">
+		                                <span class="price-num">${item.price?string.currency}&nbsp;x&nbsp;${item.num}</span>
+                            		</p>
+	                                <#-- 创建商品基本信息标签 -->
+									<#assign goodsBaseDataTag = newTag("goodsBaseDataTag") >
+									<#-- 调用标签获取商品基本信息 -->
+									<#assign goods = goodsBaseDataTag("{'goodsid':${item.goods_id}}") >
+                            	</div>
+                            	<div class="detail-bottom">
+				                    <a href="${ctx}/mobile/order/order-detail.html?ordersn=${order.sn}">
+									 	<button>订单详情</button>
+									</a>
+									<a href="${ctx}/mobile/order/order-edit.html?ordersn=${order.sn}">
+									 	<button>订单审核</button>
+									</a>
+                            	</div>
+                            </#list>
+						</div>
+					</div>
+	            </#list>
+            <#else>
+             <div style="width:100%;overflow:hidden;text-align: center;padding:20px 0;">
+            	暂无相关数据
+             </div>
+	        </#if>
+		</div>
+
+<script src="${ctx}${themes_path}/new_store/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="${ctx}${themes_path}/new_store/js/addgoods.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	$(function(){
+		 var module = new Module();
+         module.navigator.init('订单列表');
+			
+		//模糊搜索
+		$("#filter_seach").click(function() {
+			var filter_var = $('#filterseach').val();
+			location.href = './order-list.html?order_state=all' + '&keyword=' + filter_var;
+		})
+	})
+</script>
+	</body>
+</html>

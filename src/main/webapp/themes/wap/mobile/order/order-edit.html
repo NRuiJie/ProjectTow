@@ -1,0 +1,289 @@
+<#assign  title="订单审核" />
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/addgoods.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/orderadmin.css"/>
+
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/address.css"/>
+<script src="${ctx}/statics/e_tools/js/library/jquery.form.min.js"></script>
+<script src="${ctx}/statics/e_tools/mobile/js/jquery.addressSelect-mobile.js"></script>
+<body>
+<#-- 创建“订单详细”标签 -->
+<#assign orderDetailTag = newTag("storeOrderDetailTag")>
+<#-- 调用“订单详细”标签，并传递参数 -->
+<#assign orderDetail = orderDetailTag()!''>
+<#if orderDetail?? && orderDetail!=''>
+	<#-- 创建“店铺订单访问权限判断”标签 -->
+ 	<#assign storeOrderAccessAuthTag = newTag("storeOrderAccessAuthTag")>
+ 	<#-- 调用“店铺订单访问权限判断”标签，并传递参数 -->
+ 	<#assign AccessAuth = storeOrderAccessAuthTag("{'order_id':${orderDetail.order_id}}")>
+    <#--  订单状态 -->
+    <#assign orderstatus= "com.enation.app.shop.front.tag.order.OrderStatusDirectiveModel"?new()>
+    <#-- 创建“订单货物列表”标签 -->
+    <#assign orderItemListTag = newTag("orderItemListTag")>
+    <#-- 调用“订单货物列表”标签，并传递参数-->
+    <#assign orderItemList = orderItemListTag("{'orderid':${orderDetail.order_id}}")>
+    <#-- 创建“发票标签” -->
+    <#assign receiptTag = newTag("receiptTag")>
+    <#-- 调用发票标签 -->
+    <#assign orderreceipt = receiptTag("{'orderid':${orderDetail.order_id}}")>
+    <#-- 获得商品META（快递、运费）信息 -->
+    <#assign orderMetaTag = newTag("orderMetaTag")>
+    <#-- 调用商品META（快递、运费）信息 -->
+    <#assign orderMeta = orderMetaTag("{'orderid':${orderDetail.order_id}}")>
+    <#-- 获取订单状态标签 -->
+    <#assign orderStautsTag = newTag("orderStautsTag")>
+    <#-- 调用订单状态标签 -->
+    <#assign orderState = orderStautsTag()>
+    <#-- 获取订单店铺信息 -->
+    <#assign storeDetailTag=newTag("myStoreDetailTag")>
+    <#assign storeDetail=storeDetailTag("{'type':'order','store_id':'${orderDetail.store_id}'}")>
+    <#-- 创建“物流信息”标签 -->
+    <#assign orderShipListTag = newTag("orderShipListTag")>
+    <#-- 调用“物流信息”标签，并传递参数-->
+    <#assign orderShipList = orderShipListTag("{'orderid':${orderDetail.order_id}}")>
+    
+    <#assign memberInfoTag=newTag("memberInfoTag")>
+	<!-- 调用会员基本信息 并传递mustlogin的参数，如果没登录，直接跳转到index.html页 -->
+	<#assign member=memberInfoTag("{'mustlogin':'yes'}")>
+</#if>
+<div class="changelist">
+	<div class="changeitem">
+		<input id="order-id" type="hidden" value="${orderDetail.order_id}">
+		<div class="change-title">
+			订单价格
+		</div>
+		<p>商品金额：${orderDetail.goods_amount?string.currency}</p>
+		<p>配送运费：${orderDetail.shipping_amount?string.currency}</p>
+		<p>订单总额：<span class='all'>${orderDetail.need_pay_money?string.currency}</span><img src="${ctx}${themes_path}/new_store/images/editor.png" data-name = "all" height="15" style="float:right;" class='editor1'/></p>
+		<p>优惠金额：${orderDetail.discount?string.currency}</p>
+		<p>应付金额：${orderDetail.need_pay_money?string.currency}</p>
+		<p>已付金额：${orderDetail.paymoney?string.currency}</p>
+	</div>
+	<div class="changeitem">
+		<div class="change-title">
+			收货人信息 <img src="${ctx}${themes_path}/new_store/images/editor.png"  style="float: right;"  height="15" class='editor2'/>
+		</div>
+		<p>姓名：<span class="suername">${orderDetail.ship_name!''}</span></p>
+		<p>电话：
+			<span class="userphone">
+				<#if orderDetail.ship_mobile?exists && orderDetail.ship_mobile != ''>
+                ${orderDetail.ship_mobile!''}
+                <#else>
+                    <#if orderDetail.ship_tel?exists && orderDetail.ship_tel != ''>
+                        ${orderDetail.ship_tel!''}
+                    </#if>
+                </#if>
+			</span>
+		</p>
+		<p>地区：<span class="useradress">${orderDetail.shipping_area!''}</span></p>
+		<p>地址：<span class="useradressdetail">${orderDetail.ship_addr!''}</span></p>
+		<p>邮编：<span class="zipcode">${orderDetail.ship_zip!''}</span></p>
+		<p>送货时间：<span class="time">${orderDetail.ship_day!''}&nbsp;${orderDetail.ship_time!''}</span> </p>
+	</div>
+	<div class="changeitem">
+		<div class="change-title">
+			物流信息  <img src="${ctx}${themes_path}/new_store/images/editor.png"  style="float: right;"  height="15" class='editor3'/>
+		</div>
+		<#if (!orderDetail.isCod &&orderDetail.payStatus =="已付款"&&orderDetail.shipStatus=="未发货")||(orderDetail.isCod&&orderDetail.orderStatus=="已确认"&&orderDetail.shipStatus=="未发货")>
+			<p>物流公司：
+				<select name="logi_id" id="logi"  style="width: 100px;">
+					<#list orderShipList as logi>
+						<option value="${logi.id}"<#if orderDetail.logi_id?? && logi.id==orderDetail.logi_id> selected="selected"</#if>>${logi.name}</option>
+					</#list>
+				</select>
+			</p>
+			<p>快递单号：${orderDetail.ship_no!''}</p>
+		<#else>
+			<p>物流公司：<span class="logi_name">${orderDetail.logi_name!''}</span></p>
+			<p>快递单号：<span class="ship_no">${orderDetail.ship_no!''}</span></p>
+		</#if>
+		<p>签收状态：
+			<#if orderDetail.signing_time?exists && (orderDetail.signing_time!=0) &&  (orderDetail.status gt ORDER_ROG)>
+				已签收
+			<#else>            	
+				未签收
+			</#if>
+		</p>
+		<p>签收人：
+			${orderDetail.the_sign!'' }
+		</p>
+		<p>签收时间：
+			<#if orderDetail.signing_time?exists  &&orderDetail.signing_time!=0>
+			  <@dateformat pattern="yyyy-MM-dd HH:mm:ss" time="${(orderDetail.signing_time)?c}" />
+			</#if>
+		</p>
+	</div>
+	<div class="changeitem">
+		<div class="change-title">
+			会员信息
+		</div>
+		<p>用户名：${member.uname!'' }</p>
+		<p>姓名：${member.name!'' }</p>
+		<p>性别：<#if member.sex==1>男<#else>女</#if></p>
+		<p>电话：${member.tel!'' }</p>
+		<p>地区：${member.province!'' }-${member.city!''}-${member.region!'' }</p>
+		<p>email：${member.email!'' }</p>				
+	</div>
+	<div class="changeitem">
+		<div class="change-title">
+			订单其他信息
+		</div>
+		<p>配送价保：
+			<#if orderDetail.is_protect==1>
+				是
+	        <#else>
+	      		否
+	        </#if>
+		</p>
+		<p>商品重量：
+			<#if orderDetail.shipping_type??>
+         		${orderDetail.weight }g
+        	<#else>
+      			0g
+        	</#if>
+		</p>
+		<p>支付方式：
+			${orderDetail.payment_name }
+		</p>
+		<p>可得积分：
+			${orderDetail.gainedpoint + orderDetail.activity_point}
+		</p>
+	</div>
+	<div class="changeitem">
+		<div class="change-title">
+			订单备注
+			<div style="float: right;font-size: 12px;background:#D31515;color: #fff; width: 40px;height: 28px;line-height: 28px; text-align: center;" id="target">
+			    保存
+			</div>  
+		</div>
+		<p>
+		<textarea class="remark">${orderDetail.remark!''}</textarea>
+		
+		</p>
+	</div>
+	<div class="changeitem">
+		<div class="change-title">
+			特殊处理
+			<div style="float: right;font-size: 12px;background:#D31515;color: #fff; width: 40px;height: 28px;line-height: 28px; text-align: center;" id="target2">
+			    保存
+			</div>  
+		</div>
+		<p>
+		<textarea class='admin_remark'>${orderDetail.admin_remark!''}</textarea>
+		</p>
+	</div>
+</div>
+<!-- <button class="savebtn" id="savebtn">保存</button> -->
+
+
+	<div class="modal1 modalbg">
+			<div class="modalcon">
+				<div class="modaltit">
+					修改订单总额
+				</div>					
+				<div class="modalmain">
+					<input type="" name="" id="order-pric" value="" autofocus="autofocus" />
+				</div>				
+				<div class="modalfooter">					
+					<button class="cancel">取消</button>
+					<button class="confirm">确认</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="model2 modalbg">
+			<div class="modalcon">
+				<div class="modaltit">
+					修改收货信息
+				</div>					
+				<div class="modalmain">
+					<dl>
+						<dt>姓名</dt>						
+						<dd>
+							<input type="text" class="nameedit"/>
+						</dd>
+					</dl>
+					<dl>
+						<dt>电话</dt>						
+						<dd>
+							<input type="text" class="teledit"/>
+						</dd>
+					</dl>
+					<dl>
+						<dt>地区</dt>						
+						<dd>
+							<!-- <input type="text" class="adressedit"/> -->
+							<div class="content select-address"  style="width: 95%;float:right;border:1px solid #ccc;border-radius:5px;height:35px;padding-left: 10px;line-height: 34px;">
+		                        <span></span>
+		                    </div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>详细地址</dt>						
+						<dd>
+							<input type="text" class="adressdetailedit  "/>
+						</dd>
+					</dl>
+					<dl>
+						<dt>邮编</dt>						
+						<dd>
+							<input type="number" class="zipcodeedit "/>
+						</dd>
+					</dl>
+					<dl>
+						<dt>收货时间</dt>						
+						<dd>
+							<!-- <input type="text" class="timeedit" readonly="readonly"/> -->
+							<select name="time" id="time"  style="width: 100px;" class="timeedit">
+								<option selected="selected">任意时间</option>
+								<option >双休日</option>
+								<option >工作日</option>
+							</select>
+						</dd>
+					</dl>
+				</div>				
+				<div class="modalfooter">					
+					<button class="cancel">取消</button>
+					<button class="confirm">确认</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="model3 modalbg">
+			<div class="modalcon">
+				<div class="modaltit">
+					修改物流信息
+				</div>					
+				<div class="modalmain">
+					<dl>
+						<dt>物流公司</dt>						
+						<dd>
+							<select name="logi_id" id="logi"  style="width: 100px;" class="logi_nameedit">
+								<#list orderShipList as logi>
+									<option value="${logi.id}"<#if orderDetail.logi_id?? && logi.id==orderDetail.logi_id> selected="selected"</#if>>${logi.name}</option>
+								</#list>
+							</select>
+					
+						</dd>
+					</dl>
+					<dl>
+						<dt>快递单号</dt>						
+						<dd>
+							<input type="number" class="ship_noedit"/>
+						</dd>
+					</dl>
+					
+				</div>				
+				<div class="modalfooter">					
+					<button class="cancel">取消</button>
+					<button class="confirm">确认</button>
+				</div>
+			</div>
+		</div>
+		
+
+
+<script src="${ctx}${themes_path}/mobile/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="${ctx}${themes_path}/mobilemobile/js/order-edit.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

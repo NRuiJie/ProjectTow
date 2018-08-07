@@ -1,0 +1,331 @@
+<#assign headerTag = newTag("headerTag") />
+<#assign header = headerTag() />
+<!DOCTYPE html>
+<html>
+	<head>
+		<#assign headerTag = newTag("headerTag") />
+	    <#assign header = headerTag() />
+	    <#if title??>
+        <title>${title}-${header.title}</title>
+        <#else>
+         <title>${header.title}</title>
+	    </#if>
+   		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta http-equiv="Expires" content="-1">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta http-equiv="Pragma" content="no-cache">
+        <script type="text/javascript">
+	        var ctx="${ctx}";
+	    </script>
+	    <link rel="stylesheet" href="${ctx}/themes/wap/mobile/css/swiper-3.4.2.min.css">
+	    <link rel="stylesheet" href="${ctx}/themes/wap/mobile/css/swiper.min.css">
+	    <link rel="stylesheet" href="${ctx}/themes/wap/mobile/css/swipeslider.css">
+	    <link rel="stylesheet" type="text/css" href="${ctx}/themes/wap/mobile/css/layout.css" charset="utf-8"/>
+		<link rel="stylesheet" type="text/css" href="${ctx}/themes/wap/mobile/css/home.css" charset="utf-8"/>
+		<script type="text/javascript" src="${ctx}/themes/wap/mobile/js/jquery.js" ></script>
+		<script type="text/javascript" src="${ctx}/themes/wap/mobile/js/touchslider.js"></script>
+		<script type="text/javascript" src="${ctx}/themes/wap/mobile/js/fastclick.js"></script>
+		<script src="${ctx}/themes/wap/mobile/js/swiper-3.4.2.min.js"></script>
+			<script src="${ctx}/themes/wap/mobile/js/swipeslider.min.js"></script>
+		<script type="text/javascript">
+		$(function() {
+		    FastClick.attach(document.body);
+		});
+		</script>
+		
+		<style>
+			.sw-next-prev{display:none;}
+			.sw-bullet{bottom:10px;}
+			.sw-bullet li.active{background: #d31515;}
+			.swipslider .sw-slide > img {
+    position: absolute;
+     top: 0;
+     left:0; 
+     -webkit-transform: translate(0, 0); 
+  transform: translate(0, 0);
+  max-height:inherit;
+   height:auto;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+		</style>
+	</head>
+	<body>
+		<a id="layout_top" name="top"></a>	
+		 	
+<div class="viewport">
+
+<!-- 广告开始 -->
+ 
+
+
+
+
+ <div id="full_feature" class="swipslider">
+		        <ul class="sw-slides">
+		        
+		        <#-- 创建广告标签 -->
+       <#-- 创建广告标签 -->
+        <#assign advListTag= newTag("advListTag")>
+        <#-- 调用广告信息,传递参数acid:1 -->
+        <#assign adv = advListTag("'acid':'10'")!'' >
+        <#-- 获取广告列表 -->
+        <#assign advList = adv.advList />
+        <#if !advList?exists || advList?size==0>
+                     没有上传广告
+        <#else/>
+            <#list advList as adv>
+            	<#if adv.url ??>
+            	 <li class="sw-slide">
+		           <img  src="<@imgurl pic='${adv.atturl}' />" data-href="${ctx}/${adv.url}" alt="${adv.aname!''}">
+		          </li>
+              
+            <#else/>
+            <li class="sw-slide">
+                <img src="<@imgurl pic='${adv.atturl}' />" data-href="" alt="${adv.aname!''}">
+             </li>
+            </#if>
+            </#list>
+        </#if>
+		        
+		        
+		          
+		        </ul>
+		      </div>
+
+
+
+
+<!-- 广告结束   -->     
+
+			<style>
+				.indexTop-link{overflow:hidden;background:#fff;margin-bottom: 12px;}
+				.indexTop-link a{float:left;width:25%;box-sizing:border-box;text-align:center;padding:15px 0;color:#7f7f7f;    text-decoration: none;font-size:14px;}
+				.indexTop-link a img{width:auto;margin-bottom:5px;}
+				.indexTop-link a:nth-of-type(1),.indexTop-link a:nth-of-type(2),.indexTop-link a:nth-of-type(3){
+				border-right:1px solid #f5f5f5;
+				}
+			</style>
+
+		   <div class="indexTop-link">
+		   		<a href="javascript:app.lucky()">
+		   		  <img src="${ctx}/themes/wap/mobile/images/appnav15.png" height="40" />
+		   		  <p>疯乐吧</p>
+		   		</a>
+		    	<a href="javascript:app.integral_mall()">
+		   		  <img src="${ctx}/themes/wap/mobile/images/appnav16.png" height="40" />
+		   		  <p>乐币商城</p>
+		   		</a>
+		   		<a href="javascript:app.Getinlist(90,'免费领取')">
+		   		  <img src="${ctx}/themes/wap/mobile/images/appnav17.png" height="40" />
+		   		  <p>免费领取</p>
+		   		</a>
+		   		<!-- <a href="javascript:app.snatch_treasure()">
+		   		  <img src="${ctx}/themes/wap/mobile/images/appnav18.png" height="40" />
+		   		  <p>乐币夺宝</p>
+		   		</a> -->
+		   		<a href="javascript:app.baodan()">
+		   		  <img src="${ctx}/themes/wap/mobile/images/appnav19.png" height="40" />
+		   		  <p>开通VIP</p>
+		   		</a>
+		   </div>	
+
+
+            <!-- 最新上架 -->
+            <div id="recommend" class="floor love-floor"><h2 style="padding-bottom: 0px" class="love-floor-title login-succeed">最新上架</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'3','goodsnum':'4'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic"style="text-align: center;">
+            					<@image	src="${goods.small!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title" style="border-bottom:0!important;">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price" style="color:#d00412!important">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 最新上架结束 -->
+       			
+       			
+       			
+     			
+			<!-- 品牌汇总 -->
+       	<!--品牌汇总-->
+		<#assign brandTag = newTag("mobileBrandTag")>
+		<#assign brandList = brandTag("'num':'4'")>
+		<div class="index-selling-goods">
+		 <!-- Swiper -->
+		    <div class="swiper-container swiper-container2" >
+		    <div class="title-tag-goods">
+		        <div class="icon-tag-goods reco">
+		        </div>
+		        <div class="name-tag-goods reco" style="font-size: 15px;background:#fff;color: #333;padding-left:5px;height:15px;padding-top:8px;height:35px;text-align:center;">品牌汇总</div>
+		        <div class="swiper-pagination swiper-pagination2" style="top:8px;padding-right: 6px;font-size:14px;color:#7f7f7f;width:100%;text-align: right;"></div>
+		    </div>
+		        <div class="swiper-wrapper">
+			          <#list brandList as brand>
+			            <div class="swiper-slide" >
+			                <a data-href="javascript:app.showBrand(${brand.brand_id});" class="tap">
+			                         <@image width="100%"	src="${brand.logo!''}" border="0" class="seckill-photo" style="height:166px"/>
+		                      </a>
+			             </div>
+			          </#list>
+		        </div>
+		        <!-- Add Pagination -->
+		    </div>
+		</div> 	           	
+		<!-- 品牌汇总结束 -->
+
+
+  			      			     			
+       	<!-- 热销商品 -->
+            <div id="recommend" class="floor love-floor" style="margin-top: 10px;">
+              <h2 style="padding-bottom: 0px;" class="love-floor-title login-succeed;">热销商品</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'82','goodsnum':'4'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic"style="text-align: center;">
+            					<@image	src="${goods.small!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title" style="border-bottom:0;!important;">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price" style="color:#d00412!important">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 热销商品结束 -->
+       			
+       	    <!-- 养生专区 -->
+            <div id="recommend" class="floor love-floor" style="margin-top: 10px;">
+              <h2 style="padding-bottom: 0px;" class="love-floor-title login-succeed;">养生专区</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'223','goodsnum':'8'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic"style="text-align: center;">
+            					<@image	src="${goods.small!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title" style="border-bottom:0;!important;">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price" style="color:#d00412!important">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 养生专区结束 -->     			
+				       			
+				 <#assign adv1 = advListTag("'acid':'28'")!'' >
+				<#assign advList1 = adv1.advList />
+				<div class="index-selling-goods" style="border-bottom: 10px solid #f5f5f5;">
+				   <#list advList1 as adv1>
+				    <a class="title-tag-goods" href="javascript:app.changeTab(2);">  
+				        <img src="${adv1.atturl!''}" alt="" style="width:100%" /> 
+				    </a>
+				   </#list>
+				</div>  			
+       			
+       			<!-- 精品推荐 -->
+            <div id="recommend" class="floor love-floor"><h2 style="padding-bottom:0px;" class="love-floor-title login-succeed;padding-left: 15px;">精品推荐</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'89','goodsnum':'8'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic"style="text-align: center;">
+            					<@image	src="${goods.small!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title" style="bordrer:0px!important">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price" style="color:#d00412!important">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 精品推荐结束 -->
+        			<!-- 为您推荐 -->
+            <div id="recommend" class="floor love-floor"><h2 style="padding-bottom:0px;" class="love-floor-title login-succeed;padding-left: 15px;">为您推荐</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'222','goodsnum':'50'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic"style="text-align: center;">
+            					<@image	src="${goods.small!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title" style="bordrer:0px!important">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price" style="color:#d00412!important">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>   			
+       			</div>
+       			<!-- 为您推荐结束 -->      			
+       			
+
+</div>
+		<script language="javascript"> 
+		$(function(){
+			 $('#full_feature').swipeslider({
+				 sliderHeight: '180px'
+			 });
+			
+			var mySwiper2 = new Swiper('.swiper-container2',{
+				pagination : '.swiper-pagination2',
+				paginationType : 'fraction',
+			}) 
+		})
+		</script>    
+</body>
+</html>

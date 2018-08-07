@@ -1,0 +1,252 @@
+<#assign headerTag = newTag("headerTag") />
+<#assign header = headerTag() />
+<!DOCTYPE html>
+<html>
+	<head>
+		<#assign headerTag = newTag("headerTag") />
+	    <#assign header = headerTag() />
+	    <#if title??>
+        <title>${title}-${header.title}</title>
+        <#else>
+         <title>${header.title}</title>
+	    </#if>
+   		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta http-equiv="Expires" content="-1">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta http-equiv="Pragma" content="no-cache">
+        <script type="text/javascript">
+	        var ctx="${ctx}";
+	    </script>
+	    <link rel="stylesheet" type="text/css" href="${ctx}/themes/wap/mobile/css/layout.css" charset="utf-8"/>
+		<link rel="stylesheet" type="text/css" href="${ctx}/themes/wap/mobile/css/home.css" charset="utf-8"/>
+		<script type="text/javascript" src="${ctx}/themes/wap/mobile/js/jquery.js" ></script>
+		<script type="text/javascript" src="${ctx}/themes/wap/mobile/js/touchslider.js"></script>
+	</head>
+	<body>
+		<a id="layout_top" name="top"></a>	
+		 	
+<div class="viewport">
+<div class="floor slider-floor">
+
+	<!-- 广告开始 -->
+	<!-- 创建广告标签 -->
+	<#assign advListTag= newTag("advListTag")>
+	<!-- 调用广告信息,传递参数acid:1 -->
+	<#assign adv = advListTag("'acid':'14'")!'' >
+	<!-- 获取广告列表 -->
+	<#assign advList = adv.advList />
+    <div id="slider" class="slider">
+        <ul id="slider_touch">
+        <#if !advList?exists || advList?size==0> 
+			没有上传广告 
+		<#else>
+		<#list advList as adv>
+            <li class="" <#if adv_index == 0>style="display: list-item;"<#else>style="display:none;"</#if>>
+					<a href="${adv.url!''}">
+						<@image border="0" src="${adv.atturl}" style="z-index:1;height:auto; max-width:640px; min-width:302px; width: 100%"/>
+					</a>
+			</li>
+        </#list>
+		</#if>
+		</ul>
+        <div id="serial-number" class="serial-number" style="z-index:1; "></div>
+    </div>
+    <script type="text/javascript">
+	$(function(){
+		var geshu= $("#slider_touch li").length;    //获取大幅图片中li的总个数。
+		for(i=1;i<=geshu;i++){    //for循环，定i=1,每次循环就加1; 当i的值由1循环到等于result的值一样时（即“文本框的name='text'的值”）就停止循环
+			var createobj = $("<span class='point'></span>"); //把div定义为变量createobj
+			if(i == 1){
+				createobj.prop("class", "point  selected");
+			}
+			$("#serial-number").append(createobj); //把createobj这个变量追加到html中的'body'里
+		};
+			/*具体我也没太读懂*/
+			var active=0,
+			as=document.getElementById('serial-number').getElementsByTagName('span');	
+			for(var i=0;i<as.length;i++){
+				(function(){
+					var j=i;
+					as[i].onclick=function(){
+						t2.slide(j);
+						return false;
+					}
+				})();
+			};
+			var t2=new TouchSlider({id:'slider', speed:600, timeout:4000, before:function(index){
+					as[active].className='point';
+					active=index;
+					as[active].className='point  selected';
+				}});
+		  /*循环滚动结束*/
+		
+	})
+	</script>
+    <!-- 广告结束 -->
+    
+    
+				<nav class="app-nav">
+		        <a class="app-link fz12 J_ping" href="javascript:app.changeTab(2);">
+			        <img width="25" height="22" src="${ctx}/themes/wap/mobile/images/tk_category.png">
+			        <span>全部分类</span>
+		        </a>
+		        
+		        <a class="app-link fz12 J_ping" href="javascript:app.changeTab(4);">
+		        	<img width="25" height="22" src="${ctx}/themes/wap/mobile/images/tk_person.png">
+		        	<span>个人中心</span>
+	        	</a>
+	        	
+	        	<a class="app-link fz12 J_ping" href="javascript:app.myorder();">
+		        	<img width="25" height="22" src="${ctx}/themes/wap/mobile/images/tk_order.png">
+		        	<span>我的订单</span>
+	        	</a>		        
+		        
+		        <a class="app-link fz12 J_ping" href="javascript:app.changeTab(3);">
+		        	<img width="25" height="22" src="${ctx}/themes/wap/mobile/images/tk_cart.png">
+		        	<span>购物车</span>
+	        	</a>
+	        	
+		 	</nav>
+</div>
+            
+            <!-- 热品推荐 -->
+            <div id="recommend" class="floor love-floor"><h2 style="padding-bottom: 0px;" class="love-floor-title login-succeed">热品推荐</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'1','goodsnum':'4'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic">
+            					<@image	src="${goods.thumbnail!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 热品推荐结束 -->
+       			
+       			<!-- 精品推荐 -->
+            <div id="recommend" class="floor love-floor"><h2 style="padding-bottom: 0px;" class="love-floor-title login-succeed">精品推荐</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'3','goodsnum':'4'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic">
+            					<@image	src="${goods.thumbnail!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 精品推荐结束 -->
+       			
+       				<!-- 热销商品 -->
+            <div id="recommend" class="floor love-floor"><h2 style="padding-bottom: 0px;" class="love-floor-title login-succeed">热销商品</h2>
+            	<ul class="love-list" id="recommendList">
+            	<#assign goodsListTag = newTag("goodsListTag")>
+			    <!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->
+			    <#assign goodsList=goodsListTag("'tagid':'1','goodsnum':'4'")>
+			    <#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic">
+            					<@image	src="${goods.thumbnail!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           		</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- 热销商品结束 -->
+       			
+     		<!-- F1区食品饮料 -->
+     		<#assign goodsListTag = newTag("goodsListTag")>
+     		<#assign goodsList=goodsListTag("'tagid':'39' ,'catid':'1','goodsnum':'4'")>
+            <div id="recommend" class="floor love-floor">
+            <h2 style="padding-bottom: 0px; height:35px; background-color:#eeeeee;" class="love-floor-title">
+            <ul>
+            	<li style="padding-right:10px;padding-top:0px;"><a href="javascript:app.showList(1);" style="font-size: 15px;">F1区食品饮料</a></li>
+            	<li><a href="javascript:app.showList(261);">休闲食品</a></li>
+            	<li><a href="javascript:app.showList(24);">烟酒</a></li>
+            	<li><a href="javascript:app.showList(608);">饮料</a></li>
+            	<!-- <li><a href="javascript:app.showList(1);">营养糊粉保健食品</a></li> -->
+           	</ul>           
+            <a href="javascript:app.showList(1);" style="text-decoration: none;"><span id="love-login-info" class="love-login">更多</span></a>
+            </h2>
+            	<ul class="love-list" id="recommendList">
+            		<#list goodsList as goods>
+            			<li class="love-item">
+            			<a class="J_ping" href="javascript:app.showGoods(${goods.goods_id});">
+            				<div alt="${goods.name}" class="love-item-pic">
+            				<@image	src="${goods.thumbnail!''}" alt="${goods.name}" style="width: 144px; height: 144px;"/>
+            				</div>
+            				<div class="love-item-title">
+            					<span>${goods.name}</span>
+            				</div>
+            			</a>
+            			<div class="love-item-bottom">
+            				<span class="love-item-price">￥<i>${goods.price}</i></span>
+           				</div>
+           				</li>
+           			</#list>
+         			</ul>
+         			<div style="clear: left;"></div>         			
+       			</div>
+       			<!-- F1区家电结束 -->
+       			
+       			<!-- 品牌汇总 -->
+       			<#assign brandTag = newTag("mobileBrandTag")>
+     			<#assign brandList = brandTag("'num':'3'")>
+       			<div class="floor seckill-floor">
+				<div class="title-wrap">
+                    <h2 class="title">品牌汇总</h2>
+                </div>
+                <ul class="seckill-list">
+                <#list brandList as brand>
+				 <li class="seckill-item" style="padding-bottom:10px;">
+                        <a href="javascript:app.showBrand(${brand.brand_id});" class="seckill-link J_ping">
+                            <img width="100%" src="${brand.logo}" border="0" class="seckill-photo" />
+                        </a>
+                  </li>
+                 </#list>
+				    
+				 </ul>
+            	</div>
+       			<!-- 品牌汇总结束 -->
+       			
+</div>
+
+</body>
+</html>

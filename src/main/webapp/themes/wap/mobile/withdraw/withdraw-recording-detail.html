@@ -1,0 +1,67 @@
+<#assign title="提现记录" />
+<#include '/common/header.html' />
+
+<#assign withdrawMemberLogListTag = newTag("withdrawMemberLogListTag")>
+<#-- 调用会员提现记录列表标签 -->
+<#assign info = withdrawMemberLogListTag("{'apply_id':${apply_id!0}}")!''>
+
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/withdraw.css" />
+
+<!-- 头部 -->
+<div class="header">
+	<a class="go_back" href="javascript:history.go(-1);">返回</a>
+	<p>
+		提现详情
+	</p>
+</div>
+<div class="member_center">
+	<div class="detail-withdraw-recording">
+
+		<div class="item-detail-recording">
+			<div class="key-item-detail">提现金额：</div>
+			<div class="value-item-detail money">￥ ${info.withdrawApply.apply_money!''}</div>
+		</div>
+
+		<!-- <div class="item-detail-recording">
+            <div class="key-item-detail">提现方式：</div>
+            <div class="value-item-detail">现金（银行转账）</div>
+        </div>
+         -->
+		<div class="item-detail-recording">
+			<div class="key-item-detail">当前状态：</div>
+			<div class="value-item-detail">
+				<#if info.withdrawApply.wr_status==1>
+					提交申请
+					<#elseif info.withdrawApply.wr_status==2>
+						审核通过
+						<#elseif info.withdrawApply.wr_status==3>
+							审核失败
+							<#else>
+								已转账
+				</#if>
+
+			</div>
+		</div>
+
+		<div class="item-detail-recording">
+			<div class="key-item-detail">备注信息：</div>
+			<div class="value-item-detail">${info.withdrawApply.apply_remark!''}</div>
+		</div>
+
+		<div class="item-detail-recording">
+			<div class="key-item-detail">提现日志：</div>
+			<div class="value-item-detail">
+				<ul>
+					<#list info.logs as log>
+						<li>
+							<span class="time-detail-recording"><@dateformat time="${log.apply_time?c}" pattern="yyyy-MM-dd HH:mm"/></span>
+							<span>${log.log}</span>
+						</li>
+					</#list>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

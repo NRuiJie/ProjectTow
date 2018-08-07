@@ -1,0 +1,51 @@
+
+
+<#assign mydistributionList = newTag('mydistributionListTag')>
+<#-- member_id: 会员ID, page: 页数 -->
+<#assign mydistributionList = mydistributionList()>
+
+
+	
+	
+<div class="my-performance-order-wap">
+		<#if (mydistributionList.totalCount > 0) >
+			
+					<#list mydistributionList.result as disList>
+					    <div class="order-table-wap  <#if disList_index == 0 >show</#if>">
+				<div class="nav-order-table-wap">店铺: ${disList.store_name!''} <img src="${ctx}${themes_path}/images/theadr.png" style="float:right;    position: relative;top:9px;right:10px;width:16px;height:16px;"></div>
+				<table class="table table-responsive table-bordered table-hover">
+					<tbody>
+						<tr><td>TA的等级</td><td><#if disList.type==0>大号<#elseif disList.type==1>资源方<#elseif disList.type==2>创客<#elseif disList.type==3>店主 <#else>分享客</#if></td></tr>
+						<tr><td>TA的推荐人数</td><td>${disList.member_num!''}</td></tr>
+						<tr><td>开店时间</td><td><@dateformat time="${disList.create_time?eval?c}" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+						<tr><td>操作</td><td style="color: #D93600" class="see-detail"><a href="javascript: void(0);"   style="color:red;" data-store_id="${disList.store_id!0}"   data-name="${disList.name!'我'}"   data-id="${disList.member_id!0}">查看返利</a></td></tr>
+					</tbody>
+				</table>
+			</div>
+						
+					</#list>
+				
+			<@pager pageno="${page!'1'}" pagesize="${mydistributionList.pageSize}" totalcount="${mydistributionList.totalCount}" />
+		<#else>
+			<p style="text-align: center; margin-top: 20px;">暂无数据</p>
+		</#if>
+		
+	</div>
+
+	<script type="text/javascript">
+		$(function(){			
+			var contBox = $('.content-my-performance');
+			$('.content-my-performance').on('click', '.see-detail a', function(){
+				var _this     = $(this),
+					reco_name = _this.attr('data-name'),
+					dataId = _this.attr('data-id');
+					var store_id = _this.attr('data-store_id');
+					var zhu_name ="我";
+				var _href = './my-distribution-order.html?reco_name='+ reco_name +'&reco_member_id=' + dataId+'&store_id='+store_id+"&zhu_name"+zhu_name
+				contBox.load(_href);
+			})
+		})
+	</script>
+</div>
+
+

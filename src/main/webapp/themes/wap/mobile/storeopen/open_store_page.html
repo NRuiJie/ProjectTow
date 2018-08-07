@@ -1,0 +1,35 @@
+
+<#assign memberCodeTag = newTag('memberCodeTag') >
+<#assign memberCode = memberCodeTag("'is_used':${is_used}") >
+
+	<#list memberCode.codeList.result as codes>
+		<div class="new-item">
+			<p>
+				<span>邀请码：</span>${codes.code}
+			</p>
+			<p>
+				<span>创建时间：</span><@dateformat pattern="yyyy-MM-dd HH:mm:ss" time="${codes.crete_time?c}" />
+			</p>
+			<p>
+				<span>使用时间：</span>
+				<#if codes.used_time ??>
+					<@dateformat pattern="yyyy-MM-dd HH:mm:ss" time="${codes.used_time?c}" />
+				<#else>
+					--
+				</#if>
+			</p>
+			<p>
+				<span>使用状态：</span> <span class="red"><#if codes.is_used==1> 使用 <#else> 未使用 </#if></span>
+			</p>
+			<div class="qrcode">						
+						    <a href="javascript:app.shareQRCode('http://wap.ifengleba.com/api/b2b2c/member-code-api/wechat-qrcode.do?url=${codes.url}');"							
+								<span>
+								    <img src="${ctx}/api/b2b2c/member-code-api/wechat-qrcode.do?url=${codes.url}">
+								</span>
+							</a>
+						</div>						
+		</div>
+	</#list>
+
+</body>
+</html>

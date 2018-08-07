@@ -1,0 +1,113 @@
+<#assign title="提现设置" />
+<#include '/common/header.html' />
+
+<!-- 获取会员收藏列表标签 -->
+<#assign collectTag = newTag("collectTag")>
+<!-- 调用会员收藏列表标签 -->
+<#assign collect = collectTag()!''>
+<!-- 将调用的结果赋值给变量 -->
+<#assign collectList = collect.result>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/withdraw.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<!-- 头部 -->
+    <div class="tb">
+      <a href="javascript:history.go(-1);">
+	        <span>
+			<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+		</span>
+      </a>
+      <h1>提现设置</h1>
+    </div>
+<div class="member_center">
+	<!--<div class="favorite_title">-->
+		<!--<ul class="nav-withdraw-setting">-->
+			<!--<li class="selected"><a href="javascript: void(0);" data-nav="cash"><span>现金提现</span></a></li>-->
+			<!--&lt;!&ndash;<li class=""><a href="javascript: void(0);" data-nav="alipay"><span>支付宝提现</span></a></li>&ndash;&gt;-->
+			<!--&lt;!&ndash;<li class=""><a href="javascript: void(0);" data-nav="wechat"><span>微信支付提现</span></a></li>&ndash;&gt;-->
+		<!--</ul>-->
+	<!--</div>-->
+	<div class="content-withdraw-setting">
+		<#include './withdraw-setting-cash.html' />
+	</div>
+</div>
+<script>
+	$(function() {
+		$('.nav-withdraw-setting a').on('click', function(){
+			var _this   = $(this),
+				_href   = '${ctx}/member/withdraw-setting-' + _this.attr('data-nav') + '.html',
+				contBox = $('.content-withdraw-setting');
+			contBox.load(_href, function(){
+				_this.closest('li').addClass('selected')
+					 .siblings().removeClass('selected');
+			})
+		})
+
+			//现金
+	$("#xj_btn").click(function(){
+		var bank_type = $(".bank_type").val();  //开户银行
+		var bank_center_name = $(".bank_center_name").val();  //开户银行
+		var bank_name = $(".bank_name").val(); //支行名
+		var bank_account_name = $(".bank_account_name").val(); // 账户姓名
+		var bank_account_number = $(".bank_account_number").val();  //银行账号
+		var alipay_code = $(".alipay_code").val();  //支付宝账号
+		if(bank_type==1){
+			//判断开户银行不能为空是否为空
+			if(bank_center_name==""){
+				layer.alert("开户银行不能为空");
+				return false;
+			}
+			//判断支行名是否为空
+			if(bank_name==""){
+				layer.alert("支行名不能为空");
+				return false;
+			}
+			//判断银行账号是否为空
+			if(bank_account_number==""){
+				alert("银行账号不能为空");
+				return false;
+			}
+		}
+		
+		
+		//判断账户姓名是否为空
+		if(bank_account_name==""){
+			alert("账户姓名不能为空");
+			return false;
+		}
+		
+		if(bank_type==0){
+			//判断支付宝账号是否为空
+			if(alipay_code==""){
+				alert("银行账号不能为空");
+				return false;
+			}
+			
+		}
+		
+		$("#xj_form").ajaxSubmit({
+			url:"${ctx}/api/fenxiao/withdraw/save-withdraw-way.do",
+			data:{
+				bank_type:bank_type,
+				bank_center_name:bank_center_name,
+				bank_name:bank_name,
+				bank_account_name:bank_account_name,
+				bank_account_number:bank_account_number,
+				alipay_code:alipay_code
+			},
+			dataType:"json",
+			success:function(data){
+				if(data.result==1){
+					alert("保存成功");
+				}
+				else{
+					alert(data.message);
+				}
+			}
+		 })
+	})
+})
+</script>
+</div>
+

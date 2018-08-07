@@ -1,0 +1,82 @@
+<#assign title="我的分销关系" />
+<#include '/common/header.html' />
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/withdraw.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/kd2.css"/>
+<style>
+a{
+color:#666;
+}
+.nav-order-table-wap{background:#fff;color:#333;}
+</style>
+<!-- 头部 -->
+    <div class="tb">
+      <a href="javascript:history.go(-1);">
+	        <span>
+			<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+		</span>
+      </a>
+      <h1>我的分销关系</h1>
+    </div>
+<div class="member_center">
+	<div class="withdraw-nav-wap">
+		<ul class="nav-my-performance" style="width: 100%;height:40px; background-color: #fff;margin:0;font-size: 13px;">
+			
+			
+			<li class="return-performance selected" style="width:50%;">
+				<a href="javascript: void(0);" data-nav="myshare" ><span>我分享的人</span></a>
+			</li>
+			
+			<li class="order-performance " style="width:50%;">
+				<a href="javascript: void(0);" data-nav="giveshare"><span>分享给我的人</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	
+
+	<div class="content-my-performance">
+      
+	</div>
+
+</div>
+<script>
+
+	
+	$(function() {
+		var contBox = $('.content-my-performance');
+
+		loadPage()
+		function loadPage(urlName, fn){
+			var _href = urlName == undefined ? './my-share-myshare.html' : './my-share-' + urlName + '.html';
+
+			
+
+			contBox.load(_href, function(){if(fn){fn()}})
+		}
+
+		$('.nav-my-performance a').on('click', function(){
+			var _this    = $(this),
+				_urlName = _this.attr('data-nav');
+
+			loadPage(_urlName, function(){
+				_this.closest('li').addClass('selected')
+					 .siblings().removeClass('selected');
+			})
+		})
+
+
+		$('.content-my-performance').on('click', '.nav-order-table-wap', function(){
+			var _this = $(this),
+				_show = _this.parent().is('.show');
+			console.log(_show)
+			_show ? _this.parent().removeClass('show') : _this.parent().addClass('show')
+
+		})
+	})
+</script>
+</div>
+

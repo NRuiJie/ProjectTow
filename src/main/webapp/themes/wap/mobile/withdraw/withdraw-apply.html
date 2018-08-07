@@ -1,0 +1,105 @@
+<#assign title="提现申请" />
+<#include '/common/header.html' />
+
+ <!-- 获取可提现金额 -->
+<#assign withdrawCanMoneyTag = newTag("withdrawCanMoneyTag")>
+<!-- 调用会员提现记录列表标签 -->
+<#assign money = withdrawCanMoneyTag()>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/withdraw.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<!-- 头部 -->
+    <div class="tb">
+      <a href="javascript:history.go(-1);">
+	        <span>
+			<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+		</span>
+      </a>
+      <h1>提现申请</h1>
+    </div>
+<div class="member_center">
+	<form id="tx_form" method="post" class="validate"  action="#">
+	<div class="content-withdraw-apply">
+		<div class="item-apply">
+			<div class="key-item title-can-withdraw">可提现金额</div>
+			<div class="value-item money-can-withdraw money">￥ <span class="rebate">${money!'0.0'}</span></div>
+		</div>
+
+		<div class="item-apply">
+			<div class="key-item title-apply-withdraw">提现金额</div>
+			<div class="value-item money-apply-withdraw">
+				<input type="text" class="input-money" placeholder="" style="border-radius:5px;width:97%;">
+			</div>
+		</div>
+
+		<!--<div class="item-apply">-->
+			<!--<div class="key-item">提现方式：</div>-->
+			<!--<div class="value-item">-->
+				<!--<select>-->
+					<!--<option>现金（银行转账）</option>-->
+					<!--<option>支付宝提现</option>-->
+					<!--<option>微信支付提现</option>-->
+					<!--<option>余额提现</option>-->
+				<!--</select>-->
+			<!--</div>-->
+		<!--</div>-->
+
+		<div class="item-apply">
+			<div class="key-item">备注信息</div>
+			<div class="value-item">
+				<input type="text" class="input-money form-control mark-apply-withdraw" placeholder="">
+			</div>
+		</div>
+
+		<div class="item-apply">
+			<div class="key-item">&nbsp;</div>
+			<div class="value-item" style=" width:100%;text-align: center;margin-top: -16px;">
+				<a href="javascript: void(0);" class="btn btn-danger apply-btn" style="width: 100px;back;background-color: #c30f0f;
+    border-color: #c30f0f;padding: 9px 12px;">申请提现</a>
+			</div>
+		</div>
+
+	</div>
+	</form>
+</div>
+<script>
+	$(function() {
+		$(".apply-btn").click(function(){
+			var money=$(".input-money").val();
+			var rebate=$(".rebate").html();
+			if(money == ''){
+				alert("请输入提现金额!")
+				return;
+			}
+			if(parseInt(money)>parseInt(rebate)){
+				alert("已超可提现金额!")
+				return;
+			}
+			if(money <= 0){
+				alert("提现金额有误!")
+				return;
+			}
+			$("#tx_form").ajaxSubmit({
+				url:"${ctx}/api/fenxiao/withdraw/apply-withdraw.do",
+				data:{
+					apply_money:money,
+					remark:$(".mark-apply-withdraw").val()
+				},
+				dataType:"json",
+				success:function(data){
+					if(data.result==1){
+						alert("提现申请成功！")
+					}else {
+						alert(data.message);
+					}
+				},
+				error: function(){
+					alert('出现错误，请重试！')
+				}
+			 })
+			
+		})
+	})
+</script>
+</div>
+

@@ -1,0 +1,116 @@
+<#assign  title="添加商品" />
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/addgoods.css"/>
+
+<style>
+.page ul li a{padding:0 7px;}
+.page ul li{padding: 0px 1px;}
+</style>
+
+<#assign platformGoodsListTag=newTag("platformGoodsListTag")>
+    <#assign storePlatformGoods=platformGoodsListTag()>
+		<div class="search" style="top:46px;">
+			<div class="search-box">
+				<span class="search-btn" id="addkey_seach_btn"></span>
+				<input type="text" name="goodsName" id="goodsName" value="" style="width:100%;" placeholder="搜索商品名称"/>
+			</div>
+			<span class="cancel">取消</span>
+		</div>
+		
+		<div class="filter">
+			<div class="filter-item  ">
+				<span>分类</span><i class="arry"></i>
+				
+				
+				<div class="filter-con">
+					<ul class="filternav">
+						<li class="active search-cat-id" cat-id=""><a href="JavaScript:">全部分类</a></li>
+						<#-- 创建商品分类标签 --> 
+		               <#assign goodsCatListTag=newTag("goodsCatListTag")>
+		                <#assign goodsCatList=goodsCatListTag()>
+		                <#if goodsCatList?size != 0 >
+		                <#list goodsCatList as goodsCat>
+							<li  cat-id="${goodsCat.cat_id}" class="search-cat-id"><a href="JavaScript:">${goodsCat.name}</a></li>
+						 </#list>
+	                   </#if>
+						
+					</ul>
+				</div>
+				
+			</div>
+		    <div class="filter-item">
+				<span>品牌</span><i class="arry"></i>
+				<div class="filter-con">
+					<ul class="filternav">
+						<li class="active search-brand-id" cat-id=""><a href="JavaScript:">全部品牌</a></li>
+						<#-- 创建商品分类标签 --> 
+		               <#assign brandListTag=newTag("brandListTag")>
+		                <#assign brandList=brandListTag()>
+		                <#if brandList?size != 0 >
+		                <#list brandList as brand>
+		                <#if brand_index<=40> 
+							<li  brand-id="${brand.brand_id}" class="search-brand-id"><a href="JavaScript:">${brand.name}</a></li>
+						  </#if>
+						 </#list>
+	                   </#if>
+						
+					</ul>
+				</div>
+			</div>
+		   <div class="searchgo">
+				<span>搜索</span>
+			</div>
+		</div>
+		
+		
+		<#if storePlatformGoods.totalCount != 0>
+		<div class="goods">
+		 <#list storePlatformGoods.storegoods.result as storeGoods>
+			<div class="goodsitem">
+				<div class="goodsitem-body">
+					<div class="goodsitem-img">
+						 <@image src="${storeGoods.thumbnail!''}" alt="${storeGoods.name!''}"/>
+					</div>
+					<div class="goodsitem-mes">
+						<p>商品编号：${storeGoods.sn}</p>
+						<p>商品名称：${storeGoods.name}</p>
+						<p>商品售价：${storeGoods.price?string.currency}</p>
+						<p></p>
+					</div>
+				</div>
+				<div class="goodsitem-footer">
+					<a  href="javascript:app.showGoods(${storeGoods.goods_id});">商品详情</a>
+					     <#if storeGoods.isMy??>
+					          <button >已添加</button>
+					
+                             <#else>
+                             <button  class="add-btn add-goods" goods_id="${storeGoods.goods_id}">添加</button>
+                             </#if>
+				</div>
+				
+			</div>
+			  </#list>
+			
+		</div>
+		<div class="pagination">
+		 <@pager pageno="${storePlatformGoods.page!'1'}" pagesize="${storePlatformGoods.pageSize}" totalcount="${storePlatformGoods.totalCount}" />
+		</div>
+		  <#else>
+           
+                              暂无相关数据
+           
+        </#if>
+        
+		<script src="${ctx}${themes_path}/mobile/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="${ctx}${themes_path}/mobile/js/addgoods.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${ctx}${themes_path}/mobile/js/platformGoods.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script>
+		$(function(){
+			 var module = new Module();
+	         module.navigator.init('添加商品');
+		})
+       </script>
+	</body>
+</html>

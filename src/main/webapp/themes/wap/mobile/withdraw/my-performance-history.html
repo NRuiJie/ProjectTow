@@ -1,0 +1,47 @@
+
+<#assign billMemberTag = newTag('billMemberTag') >
+<#assign billMember = billMemberTag("'member_id':${reco_member_id!member.member_id}") >
+<style>
+a:hover, a:focus {
+    color: #d31515;
+    text-decoration: underline;
+    text-decoration: none;
+}
+</style>
+<div class="performance-history">
+	<#if (billMember?size > 0) >
+		<#list billMember as bill>
+		<div class="qc xinxi" style="margin-top: 10px;">
+		   <div class="fl">
+		    <p>sn:<span>${bill.sn!''}</span></p>
+		    <p>结算时间：<span><@dateformat time="${bill.end_time?eval?c}" pattern="yyyy-MM-dd HH:mm"/></span></p>
+		    <p>结算金额：<span style="color: #d31515;">${bill.final_money?string.currency}</span></p>
+		   </div>
+		   <div class="fr">
+		     <a href="javascript: void(0);" class="btn see-detail" data-sn="${bill.sn!''}" data-bill-id="${bill.bill_id}" style="width:80px;height:35px;line-height: 22px; border: 1px solid #d31515; padding: 6px;margin-top: 22px;display: block;text-align: center;border-radius: 5px;">
+		                     查看详情
+		     </a>
+		   </div>
+		</div>	
+		</#list>
+		
+	<#else>
+		<p style="text-align: center; margin-top: 20px;">暂无数据</p>
+	</#if>
+
+	<script type="text/javascript">
+		$(function(){
+			var contentBox = $('.content-my-performance');
+			$('.performance-history').on('click', '.see-detail', function(){
+				var _this    = $(this),
+					_sn      = _this.attr('data-sn'),
+					_bill_id = _this.attr('data-bill-id');
+				var _href = './my-performance-order.html?reco_sn='+ _sn +'&reco_bill_id=' + _bill_id +'&reco_member_id=' + _reco_member_id
+				contentBox.load(_href, function(){
+					$('.history-performance').removeClass('selected')
+					$('.order-performance').addClass('selected')
+				})
+			})
+		})
+	</script>
+</div>

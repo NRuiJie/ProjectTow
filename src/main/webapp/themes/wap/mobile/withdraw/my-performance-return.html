@@ -1,0 +1,24 @@
+
+<#assign returnBillOrderTag = newTag('returnBillOrderTag') >
+<#assign returnBillOrder = returnBillOrderTag("'sn':${reco_sn!0} ,'bill_id':${reco_bill_id!0} ,'member_id':${reco_member_id!member.member_id}") >
+
+<div class="my-performance-order-wap">
+	<#if (returnBillOrder?size > 0) >
+		<#list returnBillOrder as return>
+			<div class="order-table-wap  <#if return_index == 0 >show</#if>">
+				<div class="nav-order-table-wap">编号: ${return.order_sn!''}</div>
+				<table class="table table-responsive table-bordered table-hover" style="background: #fff;">
+					<tbody>
+						<tr><td>金额</td><td>${bill.order_price?string.currency}</td></tr>
+						<tr><td>名称</td><td>${bill.uname!''}</td></tr>
+						<tr><td>级别</td><td>${bill.lv!''}</td></tr>
+						<tr><td>提成金额</td><td style="color: #D93600">${bill.pushmoney?string.currency}</td></tr>
+						<tr><td>时间</td><td><@dateformat time="${bill.create_time?eval?c}" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+					</tbody>
+				</table>		
+			</div>
+		</#list>
+		<#else>
+			<p style="text-align: center; margin-top: 20px;">暂无数据</p>
+	</#if>
+</div>

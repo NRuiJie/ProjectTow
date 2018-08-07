@@ -1,0 +1,60 @@
+
+<#assign distributionOrderList = newTag('downdistributionGiveOrderListTag') >
+<#assign fxorderList = distributionOrderList("'member_id':${reco_member_id!member.member_id}") >
+<#assign downdistributionRebate = newTag('downdistributionGiveRebateTag') >
+<#assign rebate = downdistributionRebate("'member_id':${reco_member_id!member.member_id}") >
+<style>
+    .grade{
+    font-size: 16px;
+    color: #174ed0;
+    overflow:hidden;
+    padding:12px 0;
+    text-align:center;
+    }
+    .grade .float{
+    float:left;
+    width:50%;
+    line-height:24px;
+    }
+    .grade span{
+     color:red;     
+    }
+     .grade .float .t{color:#333;}
+     .grade .float .b{font-size:20px;}
+</style>
+<div class="my-performance-order-wap">
+
+<div class="wddd_two qc grade">
+				<div class="float">
+					<p class="t">总共获取</p>
+					<p class="b"><span>${rebate.grade_rebateAll!0}元</span></p>
+				</div>
+				<div class="float">
+					<p class="t">已经发放</p>
+					<p class="b"><span>${rebate.grade_rebateed!0}元</span></p>
+				</div>
+				<!-- 从${reco_name!""}提成， -->	
+		</div>
+	<#if (fxorderList.result?size > 0) >
+	
+				<#list fxorderList.result as fxorder>
+					<div class="order-table-wap  <#if fxorder_index == 0 >show</#if>">
+				<div class="nav-order-table-wap">订单编号: ${fxorder.order_sn!''} <img src="${ctx}${themes_path}/images/theadr.png" style="float:right;    position: relative;top:9px;right:10px;width:16px;height:16px;"></div>
+				<table class="table table-responsive table-bordered table-hover">
+					<tbody>
+						<tr><td>订单金额</td><td>${fxorder.order_price?string.currency}</td></tr>
+						<tr><td>类型</td><td><#if fxorder.isServe==1>服务费<#else>代理商品</#if></td></tr>
+						<tr><td>返利金额</td><td>${fxorder.grade_rebate?string.currency}</td></tr>
+						<tr><td>下单时间</td><td><@dateformat time="${fxorder.create_time?eval?c}" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+						<tr><td>状态</td><td><#if fxorder.is_withdraw==1>已经发放<#else>未发放</#if></td></tr>
+					</tbody>
+				</table>
+			</div>
+				</#list>
+			
+		<@pager pageno="${page!'1'}" pagesize="${fxorderList.pageSize}" totalcount="${fxorderList.totalCount}" />
+	<#else>
+		<p style="text-align: center; margin-top: 20px;">暂无数据</p>
+	</#if>
+	<#-- 分页 -->
+</div>

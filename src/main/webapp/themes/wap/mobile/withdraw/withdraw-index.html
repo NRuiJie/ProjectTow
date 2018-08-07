@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>分销管理</title>		
+		<meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+	</head>
+<#assign loginB2b2cMobileMemberTag=newTag("loginB2b2cMobileMemberTag")>
+	<#assign storeMemberresult=loginB2b2cMobileMemberTag() />
+	<#assign member=storeMemberresult.storeMember />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/storenav.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<body>
+    <header>
+       <a href="javascript:app.changeTab(4);">
+		        <span>
+				<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+			</span>
+	        	</a>
+			
+			<h1>分销管理</h1>
+   </header>
+	<ul class="storenav">
+	<li><a href="my-performance.html" >我的业绩</a></li>
+	<li><a href="withdraw-setting.html" >提现设置</a></li>
+	<li><a href="withdraw-apply.html">提现申请</a></li>
+	<li><a href="withdraw-recording.html" >提现记录</a></li>
+	<li><a href="my-share.html">我的分享关系</a></li> 
+	<#if member.type!=4>
+	<li><a href="my-distribution.html" >我的分销关系</a></li> 
+	</#if>
+	</ul>
+</body>
+</html>
+

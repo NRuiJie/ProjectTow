@@ -1,0 +1,60 @@
+<#assign  title="代理商品" />
+<#include '/common/header.html' />
+	<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/addgoods.css"/>
+	<style>
+	body{padding-bottom: 45px}
+     </style>
+	
+		<div class="search search-reletive">
+			<div class="search-box">
+				<span class="search-btn" id="key_seach_btn"></span>
+				<input type="text" name="goodsName" id="goodsName" value="" style="width:100%;" placeholder="搜索商品名称"/>
+				
+			</div>
+
+		</div>
+		 <#assign myPlatformGoodsListTag=newTag("myPlatformGoodsListTag")>
+           <#assign storePlatformGoods=myPlatformGoodsListTag()>
+		 <#if storePlatformGoods.totalCount != 0>
+		<div class="goods">
+		   <#list storePlatformGoods.storegoods.result as storeGoods>
+         	<div class="goodsitem">
+				<div class="goodsitem-body">
+					<div class="goodsitem-img">
+						 <@image src="${storeGoods.thumbnail!''}" alt="${storeGoods.name!''}"/>
+					</div>
+					<div class="goodsitem-mes">
+						<p>商品编号：${storeGoods.sn}</p>
+						<p>商品名称：${storeGoods.name}</p>
+						<p>商品售价：${storeGoods.price?string.currency}</p>
+						<p></p>
+					</div>
+				</div>
+				<div class="goodsitem-footer">
+					<a  href="javascript:app.showGoods(${storeGoods.goods_id});">商品详情</a>
+					<button  class="add-btn mv-goods" goods_id="${storeGoods.goods_id}">移除</button>
+				</div>
+				
+			</div>
+        </#list>
+			
+		</div>
+		 <div class="pagination">
+		 <@pager pageno="${storePlatformGoods.page!'1'}" pagesize="${storePlatformGoods.pageSize}" totalcount="${storePlatformGoods.totalCount}" />
+		</div>
+		 <#else>
+           
+                <span class="a-no-data">暂无相关数据</span>
+           
+        </#if>
+         
+		<a class="bottom-btn"  href="./addgoods.html">添加商品</a>
+		<script src="${ctx}${themes_path}/mobile/js/platformGoods.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+	$(function(){
+		 var module = new Module();
+         module.navigator.init('代理商品');
+	})
+</script>
+	</body>
+</html>

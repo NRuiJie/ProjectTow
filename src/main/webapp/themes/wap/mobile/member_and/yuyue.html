@@ -1,0 +1,110 @@
+<#assign  title="预约" />
+<#include '/common/header.html'/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/member_and/css/tab2.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<style>
+	.tipmain{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		background:red;
+		height:40px;
+		line-height:40px;
+		text-align:center;
+		color:#fff;
+		display:none;
+	}
+</style>
+<body>
+<div class="tb">
+      <a href="javascript:history.go(-1);">
+	    <span style="top:15px;left:20px;">
+			<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+		</span>
+      </a>
+      <h1>预约</h1>
+    </div>
+<div class="nr">
+    <div class="tx qc">
+        <span class="fl">您的真实姓名:</span>
+        <input required="required" class="l fl" type="text" name="name" id="name">
+    </div>
+    <div class="tx qc">
+        <span class="fl">您的身份证号:</span>
+        <input required="required" maxlength="18" class="" type="text" name="id_card" id="id_card" class="fl">
+    </div>
+</div>
+<input type="submit" id="submit-form" name="commit" value="提交" class="tj jjj" style="color:#fff;">
+
+<div class="tipmain"></div>
+
+</body>
+<script>
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        console.log(r)
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    function tip(str){
+    	$('.tipmain').show().text(str);   
+    	hidetip();
+    }
+   
+    
+    function hidetip(){
+    	setInterval(function(){
+    		$('.tipmain').hide().html('');
+    	},3000);
+    }
+    
+    
+    $(document).on('click', '.jjj', function () {
+    	console.log(GetQueryString('rank_id'))
+       if ($("#name").val() == "") {
+    	   tip('请填写真实姓名 ')
+           return false;
+        }
+        if ($("#id_card").val() == "") {
+        	tip('请填写身份证号码')
+            return false;
+        }
+        // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if (reg.test($("#id_card").val()) === false) {
+            tip("身份证输入不合法");
+            return false;
+        } 
+
+        $.ajax({
+            url: ctx + "/api/shop/member/card/add.do?ajax=yes",
+            type: "POST",
+            //data : "name=" + $("#name").val() + "&rank_id=" + $("#rank_id").val() + "&id_card=" + $("#id_card").val(),
+            data: {
+            	'rank_id': GetQueryString('rank_id'),
+                name: $("#name").val(),
+                'id_card': $("#id_card").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.result == 1) {
+                    layer.closeAll();
+                    location.href = ctx + '/order_pay_desk_kaidian.html?orderid=' + data.message;
+                } else {
+                    if ("用户未登录" == data.message) {
+                        location.href = ctx + "/login.html?forward=../member.html";
+                    } else {
+                        tip(data.message);
+                    }
+                }
+            },
+            error: function () {
+               tip("出现错误，请重试！");
+            }
+        });
+    });
+</script>
+</html>

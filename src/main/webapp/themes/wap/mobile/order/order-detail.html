@@ -1,0 +1,121 @@
+<#assign  title="订单详情" />
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/addgoods.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/orderadmin.css"/>
+<body>
+		<#-- 创建“订单详细”标签 -->
+        <#assign orderDetailTag = newTag("storeOrderDetailTag")>
+        <#-- 调用“订单详细”标签，并传递参数 -->
+        <#assign orderDetail = orderDetailTag()!''>
+        <#if orderDetail?? && orderDetail!=''>
+        	<#-- 创建“店铺订单访问权限判断”标签 -->
+	        <#assign storeOrderAccessAuthTag = newTag("storeOrderAccessAuthTag")>
+	        <#-- 调用“店铺订单访问权限判断”标签，并传递参数 -->
+	        <#assign AccessAuth = storeOrderAccessAuthTag("{'order_id':${orderDetail.order_id}}")>
+            <#--  订单状态 -->
+            <#assign orderstatus= "com.enation.app.shop.front.tag.order.OrderStatusDirectiveModel"?new()>
+            <#-- 创建“订单货物列表”标签 -->
+            <#assign orderItemListTag = newTag("orderItemListTag")>
+            <#-- 调用“订单货物列表”标签，并传递参数-->
+            <#assign orderItemList = orderItemListTag("{'orderid':${orderDetail.order_id}}")>
+            <#-- 创建“发票标签” -->
+            <#assign receiptTag = newTag("receiptTag")>
+            <#-- 调用发票标签 -->
+            <#assign orderreceipt = receiptTag("{'orderid':${orderDetail.order_id}}")>
+            <#-- 获得商品META（快递、运费）信息 -->
+            <#assign orderMetaTag = newTag("orderMetaTag")>
+            <#-- 调用商品META（快递、运费）信息 -->
+            <#assign orderMeta = orderMetaTag("{'orderid':${orderDetail.order_id}}")>
+            <#-- 获取订单状态标签 -->
+            <#assign orderStautsTag = newTag("orderStautsTag")>
+            <#-- 调用订单状态标签 -->
+            <#assign orderState = orderStautsTag()>
+            <#-- 获取订单店铺信息 -->
+            <#assign storeDetailTag=newTag("myStoreDetailTag")>
+            <#assign storeDetail=storeDetailTag("{'type':'order','store_id':'${orderDetail.store_id}'}")>
+            <#if orderDetail.gift_id != 0>
+                 <#-- 获取会员订单促销活动赠品信息 -->
+                <#assign orderGiftDetailTag = newTag("orderGiftDetailTag")>
+                <#-- 调用会员订单促销活动赠品信息标签 -->
+                <#assign activityGift = orderGiftDetailTag("{'gift_id':${orderDetail.gift_id},'order_id':${orderDetail.order_id}}")>
+            </#if>
+            <#if orderDetail.bonus_id != 0>
+                <#-- 获取会员订单促销活动优惠券信息 -->
+                <#assign orderBonusDetailTag = newTag("orderBonusDetailTag")>
+                <#-- 调用会员订单促销活动优惠券信息标签 -->
+                <#assign bonus = orderBonusDetailTag("{'bonus_id':${orderDetail.bonus_id},'order_id':${orderDetail.order_id}}")>
+            </#if>
+        </#if>
+		<div class="detail">
+			<div class="detail-top">
+				<div class="detail-topitem">
+					<p>收货人：${orderDetail.ship_name!'---'}</p>
+					<p>订单编号：${orderDetail.sn!'---'}</p>
+					<p>下单时间：<@dateformat time="${orderDetail.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></p>
+					<p>送货时间：${orderDetail.ship_day!''}&nbsp;${orderDetail.ship_time!''}</p>
+	
+				</div>
+				<div class="detail-topitem">
+					<p>
+						<span class="red">
+							<#if (!orderDetail.isCod && orderDetail.pay_status==orderState.PAY_YES && orderDetail.ship_status==orderState.SHIP_NO && storeDetail.store_id != 1) || (orderDetail.isCod && orderDetail.status==orderState.ORDER_CONFIRM  && orderDetail.ship_status==orderState.SHIP_NO) || (orderDetail.isCod && orderDetail.needPayMoney == 0 && orderDetail.status==orderState.PAY_YES  && orderDetail.ship_status==orderState.SHIP_NO && storeDetail.store_id != 1) >
+		                       	<#if orderDetail.status == 7>
+		                       		<div class="orderdetail">
+										<i class="<#if orderDetail.status==8>order_no<#else> order_ok</#if>"></i>
+										订单状态：申请售后
+									</div>
+		                        </#if>
+		                     <#else>
+	                            <div class="orderdetail">
+	                                <i class="<#if orderDetail.status==8>order_no<#else> order_ok</#if>"></i>
+	                                <#-- 判断是否申请取消订单 -->
+	                                  		  订单状态：
+	                                    <#if orderDetail.is_cancel==1>
+	                                    	  申请取消订单
+	                                    <#else>
+                                            <#if orderDetail.isCod && orderDetail.status == orderState.ORDER_COMPLETE && orderDetail.pay_status==orderState.PAY_NO>
+                                            	<@orderstatus status="${orderState.ORDER_ROG}" type="order" />
+                                            <#else>
+                                                <@orderstatus status="${orderDetail.status}" type="order" />
+                                            </#if>
+	                                    </#if>
+	                            </div>
+                             </#if>
+						</span>
+					</p>
+					<p>付款状态：<span class="red">${orderDetail.payStatus!'---'}</span></p>
+					<p>发货状态：<span class="red">${orderDetail.orderStatus!'---'}</span></p>
+	
+	
+				</div>
+				<div class="detail-topitem">
+					<p>应付金额：${orderDetail.need_pay_money?string.currency}</p>
+					<p>消费积分：${orderDetail.gainedpoint + orderDetail.activity_point}积分</p>
+					<p>配送方式：${orderDetail.shipping_id!'免邮'}</p>
+					<p>支付方式：${orderDetail.payment_name!''}</p>
+				</div>
+			</div>
+			 <div class="detail-bottom">
+			 	<#if orderDetail.status == orderState.ORDER_NOT_PAY&&orderDetail.isPlatfort!=1>
+					<a href="${ctx}/new_store/pages/order/order-edit.html?ordersn=${ordersn}">
+					 	<button>订单修改</button>
+					</a>
+					<a href="${ctx}/new_store/pages/order/order-edit.html?ordersn=${ordersn}">
+					 	<button>确认发货</button>
+					</a>
+					<a href="${ctx}/new_store/pages/order/order-edit.html?ordersn=${ordersn}">
+					 	<button>确认收货</button>
+					</a>
+                </#if>
+			 </div>
+		</div>
+<script src="${ctx}${themes_path}/mobile/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="${ctx}${themes_path}/mobile/js/addgoods.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	$(function(){
+		 var module = new Module();
+         module.navigator.init('订单详情');
+	})
+</script>
+</body>
+</html>

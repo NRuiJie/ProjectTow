@@ -1,0 +1,104 @@
+<#assign title="我的业绩" />
+<#include '/common/header.html' />
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/withdraw.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/kd2.css"/>
+<style>
+a{
+color:#666;
+}
+</style>
+<!-- 头部 -->
+    <div class="tb">
+      <a href="javascript:history.go(-1);">
+	        <span>
+			<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+		</span>
+      </a>
+      <h1>我的业绩</h1>
+    </div>
+<div class="member_center">
+	<div class="withdraw-nav-wap">
+		<ul class="nav-my-performance" style="width: 100%;height:40px; background-color: #fff;margin:0;font-size: 13px;">
+			<li class="order-performance selected">
+				<a href="javascript: void(0);" data-nav="order" data-member-id="${reco_member_id!0}" data-sn="${reco_sn!0}" data-bill-id="${reco_bill_id!0}" style="font-size:15px;"><span><i style="font-style: normal;"></i style="color:">我的订单</span></a>
+			</li>
+			<li class="return-performance">
+				<a href="javascript: void(0);" data-nav="return" data-member-id="${reco_member_id!0}" data-sn="${reco_sn!0}" data-bill-id="${reco_bill_id!0}" style="font-size:15px;"><span><i style="font-style: normal;"></i>我的退货单</span></a>
+			</li>
+			<li class="history-performance">
+				<a href="javascript: void(0);" data-nav="history" data-member-id="${reco_member_id!0}" data-sn="${reco_sn!0}" data-bill-id="${reco_bill_id!0}" style="font-size:15px;"><span><i style="font-style: normal;"</i>历史业绩</span></a>
+			</li>
+		</ul>
+	</div>
+	<#assign currentBillMemberTag = newTag('currentBillMemberTag')>
+	<#assign currentBillMember = currentBillMemberTag("'member_id': ${reco_member_id!member.member_id}") >
+	  
+	  
+	  <div class="wddd">
+		</div>
+			<div class="wddd_two qc">
+				<h6 class="fl">本期佣金</h6>
+			
+			</div>
+			<div class="jine">
+				<ul class="qc">
+					<li class="fl">${currentBillMember.final_money?string.currency} <p>最终佣金</p></li><span class="fl">=</span>
+					<li class="fl"style="color:#333;">${currentBillMember.push_money?string.currency}<p>付款总金额</p></li><span class="fl">-</span>
+					<li class="fl"style="color:#333;">${currentBillMember.return_push_money?string.currency}<p>退款总金额</p></li>
+				</ul>
+			</div>
+			
+			
+
+	  
+		
+		<div style="clear: both;"></div>
+
+	<div class="content-my-performance">
+      
+	</div>
+
+</div>
+<script>
+
+	var _reco_member_id = ${reco_member_id!member.member_id},
+		_reco_sn        = ${reco_sn!0},
+		_reco_bill_id   = ${reco_bill_id!0};
+	$(function() {
+		var contBox = $('.content-my-performance');
+
+		loadPage()
+		function loadPage(urlName, fn){
+			var _href = urlName == undefined ? './my-performance-order.html' : '${ctx}/mobile/withdraw/my-performance-' + urlName + '.html';
+
+			_href += '?reco_member_id='+_reco_member_id
+			if(_reco_sn != 0){_href += '&reco_sn='+_reco_sn}
+			if(_reco_bill_id != 0){_href += '&reco_bill_id='+_reco_bill_id}
+
+			contBox.load(_href, function(){if(fn){fn()}})
+		}
+
+		$('.nav-my-performance a').on('click', function(){
+			var _this    = $(this),
+				_urlName = _this.attr('data-nav');
+
+			loadPage(_urlName, function(){
+				_this.closest('li').addClass('selected')
+					 .siblings().removeClass('selected');
+			})
+		})
+
+
+		$('.content-my-performance').on('click', '.nav-order-table-wap', function(){
+			var _this = $(this),
+				_show = _this.parent().is('.show');
+			console.log(_show)
+			_show ? _this.parent().removeClass('show') : _this.parent().addClass('show')
+
+		})
+	})
+</script>
+</div>
+

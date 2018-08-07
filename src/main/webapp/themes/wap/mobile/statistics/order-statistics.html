@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-touch-fullscreen" content="yes">
+		<meta name="full-screen" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="address=no">
+		<title>订单统计</title>
+		<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/addgoods.css"/>
+		<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/order-statistics.css"/>
+		<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/storenav.css"/>
+		<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/mobile/css/open-store.css"/>
+	</head>
+	<body>
+	<header>
+       <a href="javascript:history.go(-1);">
+		        <span>
+				<img src="${ctx}${themes_path}/mobile/images/iconfont-back.png"/>
+			</span>
+	        	</a>
+			
+			<h1>订单统计</h1>
+    </header>
+		<div class="filter stsfilter">
+		    <div class="filter-item sell-filter-item">
+				<span>年汇总</span><i class="arry"></i>
+				<div class="filter-con">
+					<ul class="filternav" id="year-ul">
+						<li class="active" data-val="年"><a href="javascript:;">2012</a></li>
+						<li data-val="年"><a href="javascript:;">2013</a></li>
+						<li data-val="年"><a href="javascript:;">2014</a></li>
+						<li data-val="年"><a href="javascript:;">2015</a></li>
+						<li data-val="年"><a href="javascript:;">2016</a></li>
+						<li data-val="年"><a href="javascript:;">2017</a></li>
+						<li data-val="年"><a href="javascript:;">2018</a></li>
+						<li data-val="年"><a href="javascript:;">2019</a></li>
+						<li data-val="年"><a href="javascript:;">2020</a></li>									
+					</ul>
+				</div>
+			</div>
+		   	<div class="filter-item sell-filter-item ">
+				<span>月汇总</span><i class="arry"></i>				
+				<div class="filter-con">
+					<ul class="filternav" id="month-ul">
+						<li class="active" data-val="月"><a href="javascript:;">1</a></li>
+						<li data-val="月"><a href="javascript:;">2</a></li>
+						<li data-val="月"><a href="javascript:;">3</a></li>
+						<li data-val="月"><a href="javascript:;">4</a></li>
+						<li data-val="月"><a href="javascript:;">5</a></li>
+						<li data-val="月"><a href="javascript:;">6</a></li>
+						<li data-val="月"><a href="javascript:;">7</a></li>
+						<li data-val="月"><a href="javascript:;">8</a></li>
+						<li data-val="月"><a href="javascript:;">9</a></li>
+						<li data-val="月"><a href="javascript:;">10</a></li>
+						<li data-val="月"><a href="javascript:;">11</a></li>
+						<li data-val="月"><a href="javascript:;">12</a></li>						
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="sts-bar">
+			<p class="tit"><span id="year-val">2017月</span><span id="month-val">8月</span>营业额（元）</p>
+			<p class="money" id="amount">0</p>
+			<p class="all">总销量 <span id="total-sale">0</span></p>
+		</div>
+		
+		<div class="stslist">
+			<div style="text-align:center;">列表正在加载中...</div>
+			<!-- <div class="stsitembox">
+				<div class="stslist-tit">
+					订单号：1111111
+				</div>
+				<div class="stsitem">
+					<div class="stsrow">
+						<p>汤臣倍健维生素b</p>						
+					</div>
+					<div class="stsrow3 left">
+						<img src="http://static.b2b2cv2.javamall.com.cn/attachment//store/17/goods/2016/5/30/10//29303984_thumbnail.jpg">
+					</div>
+					<div class="stsrow2 right">
+						<p class="red">销售量：1</p>
+						<p class="red">总价：￥1111</p>
+						<p class="">单价：￥1111</p>
+					</div>
+				</div>
+				<div class="stsitem">
+					<div class="stsrow">
+						<p>汤臣倍健维生素b</p>						
+					</div>
+					<div class="stsrow3 left">
+						<img src="http://static.b2b2cv2.javamall.com.cn/attachment//store/17/goods/2016/5/30/10//29303984_thumbnail.jpg">
+					</div>
+					<div class="stsrow2 right">
+						<p class="red">销售量：1</p>
+						<p class="red">总价：￥1111</p>
+						<p class="">单价：￥1111</p>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		
+		<script src="${ctx}${themes_path}/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${ctx}${themes_path}/mobile/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${ctx}${themes_path}/mobile/js/order-statistics.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+	<script type="text/javascript">
+	
+		var global_ctx = "${ctx}";
+	
+		/**
+		 * AJAX请求订单统计信息
+		 */
+		function ajaxGetOrder(){
+			$(".stslist").empty();
+			var url = "${ctx}/api/store/store-order-statistics/getOrder.do";
+			var params = {"year":global_select_year_val, "month":global_select_month_val};
+			$.post(url, params, function(res){
+				console.log(res);
+				if(res!=null){
+					var amount = res.amount;
+					var total_sale = res.total_sale;
+					$("#amount").text(amount);
+					$("#total-sale").text(total_sale);
+					var orderList = res.orderList;
+					$.each(orderList, function(){
+						var orderHtml = createOrderItemHtml(this);
+						if(orderHtml!=null && orderHtml!=""){
+							$(".stslist").append(orderHtml);
+						}
+					});
+				}
+			});
+		}
+		
+		/**
+		 * 创建订单列表HTML字符串
+		 */
+		function createOrderItemHtml(order){
+			var itemJSON = order.items_json;
+			var goodsList = $.parseJSON(itemJSON);
+			
+			var goodsHtml = "";
+			$.each(goodsList, function(){
+				goodsHtml += createGoodsItemHtml(this);
+			});
+			var html = ''
+				html += '<div class="stsitembox">'
+				html += '<div class="stslist-tit">'
+				html += '订单号：'+order.sn
+				html += '</div>'
+				html += goodsHtml
+				html += '</div>'
+			return html;
+		}
+		/**
+		 * 创建商品列表HTML字符串
+		 */
+		function createGoodsItemHtml(goods){
+			var name = goods.name;
+			var html = ''
+				html += '<div class="stsitem" title="'+name+'">'
+				html += '<div class="stsrow">'
+				html += '<p>'+name.getShortForm(35,"...")+'</p>'
+				html += '</div>'
+				html += '<div class="stsrow3 left" onclick="javascript:window.location.href=&quot;${ctx}/goods-'+goods.goods_id+'.html&quot;">'
+				html += '<img src="'+goods.image+'" title="'+goods.image+'">'
+				html += '</div>'
+				html += '<div class="stsrow2 right">'
+				html += '<p class="">单价：￥'+goods.price+'</p>'
+				html += '<p class="">销售量：'+goods.num+'</p>'
+				html += '<p class="red">总价：￥'+(goods.price*goods.num)+'</p>'
+				html += '</div>'
+				html += '</div>'
+			return html;
+		}
+		/**
+		 * description : 得到字符串的字节长度;
+		 * @version 0.2;
+		 * @return 返回字符串的字节长度(eg:"一二12"的字节长度是6);
+		 */
+		String.prototype.getLength = function() {
+			var text = this.replace(/[^\x00-\xff]/g, "**");
+			return text.length;
+		}
+		/**
+		 * description : 按字节长度截取字符串,并添加后缀.
+		 * @param len 需要截取的长度,字符串长度不足返回本身;
+		 * @param alt 添加后缀(非必要),默认为"......";
+		 * @return 返回截取后的字符串;
+		 * @requires getLength;
+		 */
+		String.prototype.getShortForm = function(len, alt) {
+			var tempStr = this;
+			if (this.getLength() > len) {
+				if (!alt) {
+					alt = "......";
+				}
+				var i = 0;
+				for (var z = 0; z < len; z++) {
+					if (tempStr.charCodeAt(z) > 255) {
+						i = i + 2;
+					} else {
+						i = i + 1;
+					}
+					if (i >= len) {
+						tempStr = tempStr.slice(0, (z + 1)) + alt;
+						break;
+					}
+				}
+				return tempStr;
+			} else {
+				return this + "";
+			}
+		}
+
+	</script>
+</html>

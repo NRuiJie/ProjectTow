@@ -1,0 +1,46 @@
+
+
+<#assign higherdistributionMap = newTag('higherdistributionMapTag')>
+<#assign higherdistribution = higherdistributionMap()>
+
+
+	
+	
+<div class="my-performance-order-wap">
+		<#if   higherdistribution.isHase!=0&&higherdistribution.type?? >
+			
+					
+					    <div class="order-table-wap show">
+				<div class="nav-order-table-wap">店铺: ${higherdistribution.store_name!''} <img src="${ctx}${themes_path}/images/theadr.png" style="float:right;    position: relative;top:9px;right:10px;width:16px;height:16px;"></div>
+				<table class="table table-responsive table-bordered table-hover">
+					<tbody>
+						<tr><td>TA的等级</td><td><#if higherdistribution.type==0>大号<#elseif higherdistribution.type==1>资源方<#elseif higherdistribution.type==2>创客<#elseif higherdistribution.type==3>店主 <#else>分享客</#if></td></tr>
+						<tr><td>TA的下级人数</td><td>${higherdistribution.member_num!''}</td></tr>
+						<tr><td>操作</td><td style="color: #D93600"   class="seeo-detail"><#if higherdistribution.type==0>大号无需返利<#else><a href="javascript: void(0);"     data-name="${higherdistribution.name!'我'}"  style="color:red;"  data-id="${higherdistribution.member_id!0}" >查看我给他的返利</a></#if></td></tr>
+					</tbody>
+				</table>
+			</div>
+						
+				
+		<#else>
+			<p style="text-align: center; margin-top: 20px;">暂无数据</p>
+		</#if>
+		
+	</div>
+
+	<script type="text/javascript">
+		$(function(){			
+			var contBox = $('.content-my-performance');
+			$('.content-my-performance').on('click', '.seeo-detail a', function(){
+				var _this     = $(this),
+					reco_name = _this.attr('data-name'),
+					dataId = _this.attr('data-id');
+					
+				var _href = './my-distribution-giveorder.html?reco_name='+ reco_name +'&reco_member_id=' + dataId;
+				contBox.load(_href);
+			})
+		})
+	</script>
+</div>
+
+
